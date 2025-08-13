@@ -107,7 +107,7 @@ export default function EditAnnouncementPage() {
 
   if (!user || !isAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -126,12 +126,12 @@ export default function EditAnnouncementPage() {
 
   if (isLoadingAnnouncement) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400">공지사항을 불러오는 중...</p>
+            <p className="text-gray-600 text-gray-500">공지사항을 불러오는 중...</p>
           </div>
         </div>
       </div>
@@ -140,7 +140,7 @@ export default function EditAnnouncementPage() {
 
   if (error || !announcement) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -165,7 +165,7 @@ export default function EditAnnouncementPage() {
   const selectedCategory = categoryConfig[formData.category as keyof typeof categoryConfig]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -178,10 +178,10 @@ export default function EditAnnouncementPage() {
               </Button>
             </Link>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
             공지사항 수정
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600 text-gray-600">
             기존 공지사항을 수정합니다.
           </p>
         </div>
@@ -343,18 +343,18 @@ export default function EditAnnouncementPage() {
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">작성자:</span>
-                    <span className="ml-2 text-gray-600 dark:text-gray-400">{announcement.author_name}</span>
+                    <span className="font-medium text-gray-700 text-gray-600">작성자:</span>
+                    <span className="ml-2 text-gray-600 text-gray-500">{announcement.author_name}</span>
                   </div>
                   <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">작성일:</span>
-                    <span className="ml-2 text-gray-600 dark:text-gray-400">
+                    <span className="font-medium text-gray-700 text-gray-600">작성일:</span>
+                    <span className="ml-2 text-gray-600 text-gray-500">
                       {new Date(announcement.created_at).toLocaleDateString('ko-KR')}
                     </span>
                   </div>
                   <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">조회수:</span>
-                    <span className="ml-2 text-gray-600 dark:text-gray-400">{announcement.view_count || 0}</span>
+                    <span className="font-medium text-gray-700 text-gray-600">조회수:</span>
+                    <span className="ml-2 text-gray-600 text-gray-500">{announcement.view_count || 0}</span>
                   </div>
                 </CardContent>
               </Card>

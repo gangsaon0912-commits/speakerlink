@@ -112,7 +112,7 @@ export default function CreateProjectPage() {
   // 로딩 중이면 로딩 화면 표시
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -127,7 +127,7 @@ export default function CreateProjectPage() {
   // 로그인하지 않은 경우 리다이렉트 중 화면 표시
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -142,7 +142,7 @@ export default function CreateProjectPage() {
   // 관리자가 아닌 경우 접근 제한
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -167,7 +167,7 @@ export default function CreateProjectPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">

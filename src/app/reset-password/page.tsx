@@ -84,7 +84,7 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
@@ -156,7 +156,7 @@ export default function ResetPasswordPage() {
                   
                   {/* 비밀번호 요구사항 */}
                   <div className="text-xs space-y-1">
-                    <p className="font-medium text-gray-700 dark:text-gray-300">비밀번호 요구사항:</p>
+                    <p className="font-medium text-gray-700 text-gray-600">비밀번호 요구사항:</p>
                     <div className={`${passwordValidation.minLength ? 'text-green-600' : 'text-gray-500'}`}>
                       • 최소 8자 이상
                     </div>

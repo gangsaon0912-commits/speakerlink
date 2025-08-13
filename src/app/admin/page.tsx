@@ -82,7 +82,7 @@ export default function AdminDashboard() {
   // 로딩 중이면 로딩 화면 표시
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -97,7 +97,7 @@ export default function AdminDashboard() {
   // 로그인하지 않은 경우 리다이렉트 중 화면 표시
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
   // 관리자가 아닌 경우 접근 제한
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -135,15 +135,15 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
             관리자 대시보드
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600 text-gray-600">
             강사온스쿨 플랫폼 관리 및 모니터링
           </p>
         </div>

@@ -55,7 +55,7 @@ export default function LoginPage({
   // 로딩 중이거나 이미 로그인된 경우 로딩 화면 표시
   if (loading || isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-white">
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
@@ -103,7 +103,7 @@ export default function LoginPage({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-white">
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] px-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">

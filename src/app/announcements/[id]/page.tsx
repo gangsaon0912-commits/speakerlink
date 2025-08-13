@@ -101,12 +101,12 @@ export default function AnnouncementDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400">공지사항을 불러오는 중...</p>
+            <p className="text-gray-600 text-gray-500">공지사항을 불러오는 중...</p>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function AnnouncementDetailPage() {
 
   if (error || !announcement) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -140,7 +140,7 @@ export default function AnnouncementDetailPage() {
   const category = categoryConfig[announcement.category]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -193,7 +193,7 @@ export default function AnnouncementDetailPage() {
               </div>
               <CardTitle className="text-2xl mb-2">{announcement.title}</CardTitle>
               <CardDescription className="text-base">
-                <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-4 text-sm text-gray-600 text-gray-500">
                   <div className="flex items-center gap-1">
                     <User className="w-4 h-4" />
                     <span>{announcement.author_name}</span>
@@ -231,32 +231,32 @@ export default function AnnouncementDetailPage() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">작성자:</span>
-                  <span className="ml-2 text-gray-600 dark:text-gray-400">{announcement.author_name}</span>
+                  <span className="font-medium text-gray-700 text-gray-600">작성자:</span>
+                  <span className="ml-2 text-gray-600 text-gray-500">{announcement.author_name}</span>
                 </div>
                 <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">작성일:</span>
-                  <span className="ml-2 text-gray-600 dark:text-gray-400">{formatDate(announcement.created_at)}</span>
+                  <span className="font-medium text-gray-700 text-gray-600">작성일:</span>
+                  <span className="ml-2 text-gray-600 text-gray-500">{formatDate(announcement.created_at)}</span>
                 </div>
                 {announcement.updated_at !== announcement.created_at && (
                   <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">수정일:</span>
-                    <span className="ml-2 text-gray-600 dark:text-gray-400">{formatDate(announcement.updated_at)}</span>
+                    <span className="font-medium text-gray-700 text-gray-600">수정일:</span>
+                    <span className="ml-2 text-gray-600 text-gray-500">{formatDate(announcement.updated_at)}</span>
                   </div>
                 )}
                 {announcement.published_at && (
                   <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">발행일:</span>
-                    <span className="ml-2 text-gray-600 dark:text-gray-400">{formatDate(announcement.published_at)}</span>
+                    <span className="font-medium text-gray-700 text-gray-600">발행일:</span>
+                    <span className="ml-2 text-gray-600 text-gray-500">{formatDate(announcement.published_at)}</span>
                   </div>
                 )}
                 <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">조회수:</span>
-                  <span className="ml-2 text-gray-600 dark:text-gray-400">{announcement.view_count || 0}</span>
+                  <span className="font-medium text-gray-700 text-gray-600">조회수:</span>
+                  <span className="ml-2 text-gray-600 text-gray-500">{announcement.view_count || 0}</span>
                 </div>
                 <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">상태:</span>
-                  <span className="ml-2 text-gray-600 dark:text-gray-400">
+                  <span className="font-medium text-gray-700 text-gray-600">상태:</span>
+                  <span className="ml-2 text-gray-600 text-gray-500">
                     {announcement.is_published ? '발행됨' : '임시저장'}
                   </span>
                 </div>

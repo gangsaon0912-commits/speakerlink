@@ -47,7 +47,7 @@ const documentTypeConfig = {
   other: {
     label: '기타',
     icon: <FileText className="w-4 h-4" />,
-    color: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+    color: 'bg-gray-100 text-gray-800 dark:bg-gray-900 text-gray-600'
   }
 }
 
@@ -325,7 +325,7 @@ export default function AdminDocumentsPage() {
 
   if (!isAuthenticated || !isAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -349,15 +349,15 @@ export default function AdminDocumentsPage() {
   ) || []
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
             문서 검토 관리
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600 text-gray-600">
             사용자가 업로드한 문서들을 검토하고 승인/거부를 관리하세요
           </p>
         </div>
@@ -368,7 +368,7 @@ export default function AdminDocumentsPage() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">전체</p>
+                  <p className="text-sm font-medium text-gray-600 text-gray-500">전체</p>
                   <p className="text-2xl font-bold">{stats?.total || 0}</p>
                 </div>
                 <FileText className="w-8 h-8 text-blue-500" />
@@ -380,7 +380,7 @@ export default function AdminDocumentsPage() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">검토중</p>
+                  <p className="text-sm font-medium text-gray-600 text-gray-500">검토중</p>
                   <p className="text-2xl font-bold text-yellow-600">{stats?.pending || 0}</p>
                 </div>
                 <Clock className="w-8 h-8 text-yellow-500" />
@@ -392,7 +392,7 @@ export default function AdminDocumentsPage() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">승인됨</p>
+                  <p className="text-sm font-medium text-gray-600 text-gray-500">승인됨</p>
                   <p className="text-2xl font-bold text-green-600">{stats?.approved || 0}</p>
                 </div>
                 <CheckCircle className="w-8 h-8 text-green-500" />
@@ -404,7 +404,7 @@ export default function AdminDocumentsPage() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">거부됨</p>
+                  <p className="text-sm font-medium text-gray-600 text-gray-500">거부됨</p>
                   <p className="text-2xl font-bold text-red-600">{stats?.rejected || 0}</p>
                 </div>
                 <XCircle className="w-8 h-8 text-red-500" />
@@ -565,7 +565,7 @@ export default function AdminDocumentsPage() {
                               </Badge>
                             </div>
                             
-                            <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                            <div className="text-sm text-gray-600 text-gray-500 space-y-1">
                               <p>
                                 <span className="font-medium">{doc.profiles.full_name}</span>
                                 <span className="mx-2">•</span>
@@ -575,7 +575,7 @@ export default function AdminDocumentsPage() {
                               </p>
                               <p>업로드: {formatDate(doc.uploaded_at)}</p>
                               {doc.description && (
-                                <p className="text-gray-700 dark:text-gray-300">
+                                <p className="text-gray-700 text-gray-600">
                                   설명: {doc.description}
                                 </p>
                               )}
@@ -670,26 +670,26 @@ export default function AdminDocumentsPage() {
                   
                   <div>
                     <h4 className="font-medium mb-2">파일 정보</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 text-gray-500">
                       파일명: {selectedDocument.file_name}
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 text-gray-500">
                       크기: {(selectedDocument.file_size / 1024 / 1024).toFixed(2)} MB
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 text-gray-500">
                       업로드: {formatDate(selectedDocument.uploaded_at)}
                     </p>
                   </div>
                   
                   <div>
                     <h4 className="font-medium mb-2">사용자 정보</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 text-gray-500">
                       이름: {selectedDocument.profiles?.full_name}
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 text-gray-500">
                       이메일: {selectedDocument.profiles?.email}
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 text-gray-500">
                       유형: {selectedDocument.profiles?.user_type}
                     </p>
                   </div>
@@ -697,7 +697,7 @@ export default function AdminDocumentsPage() {
                   {selectedDocument.description && (
                     <div>
                       <h4 className="font-medium mb-2">설명</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-sm text-gray-600 text-gray-500">
                         {selectedDocument.description}
                       </p>
                     </div>

@@ -192,7 +192,7 @@ export default function VerificationStatusPage() {
   // 로딩 중이면 로딩 화면 표시
   if (loading || isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -210,17 +210,17 @@ export default function VerificationStatusPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
                 검증 상태
               </h1>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 text-gray-600">
                 프로필 검증 진행 상황을 확인하세요.
               </p>
             </div>
@@ -255,14 +255,14 @@ export default function VerificationStatusPage() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-medium">제출일:</span>
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                      <span className="text-sm text-gray-600 text-gray-500">
                         {new Date(verificationRequest.submitted_at).toLocaleDateString('ko-KR')}
                       </span>
                     </div>
                     {verificationRequest.reviewed_at && (
                       <div className="flex justify-between items-center">
                         <span className="text-sm font-medium">검토일:</span>
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                        <span className="text-sm text-gray-600 text-gray-500">
                           {new Date(verificationRequest.reviewed_at).toLocaleDateString('ko-KR')}
                         </span>
                       </div>
@@ -304,7 +304,7 @@ export default function VerificationStatusPage() {
                           </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-sm text-gray-600 text-gray-500">
                             거부 사유를 확인하고 프로필을 수정한 후 재제출해주세요.
                           </p>
                           <div className="flex justify-end space-x-2">
@@ -342,7 +342,7 @@ export default function VerificationStatusPage() {
                           </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-sm text-gray-600 text-gray-500">
                             프로필이 완성되었는지 확인하고 검증을 요청해주세요.
                           </p>
                           <div className="flex justify-end space-x-2">
@@ -382,7 +382,7 @@ export default function VerificationStatusPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">프로필 완성</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         모든 필수 정보를 입력하고 프로필을 완성하세요.
                       </p>
                     </div>
@@ -394,7 +394,7 @@ export default function VerificationStatusPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">검증 요청</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         프로필 편집 페이지에서 검증을 요청하세요.
                       </p>
                     </div>
@@ -406,7 +406,7 @@ export default function VerificationStatusPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">검토 대기</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         관리자가 프로필을 검토합니다 (1-3일 소요).
                       </p>
                     </div>
@@ -418,7 +418,7 @@ export default function VerificationStatusPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">승인 완료</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         승인되면 모든 기능을 사용할 수 있습니다.
                       </p>
                     </div>
@@ -434,7 +434,7 @@ export default function VerificationStatusPage() {
               <CardContent className="space-y-3">
                 <div className="space-y-2">
                   <h4 className="font-medium text-sm">강사</h4>
-                  <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                  <ul className="text-xs text-gray-600 text-gray-500 space-y-1">
                     <li>• 경력 및 학력 정보 확인</li>
                     <li>• 전문 분야 명시</li>
                     <li>• 자기소개 작성</li>
@@ -444,7 +444,7 @@ export default function VerificationStatusPage() {
                 
                 <div className="space-y-2">
                   <h4 className="font-medium text-sm">기업</h4>
-                  <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                  <ul className="text-xs text-gray-600 text-gray-500 space-y-1">
                     <li>• 회사 정보 완성</li>
                     <li>• 연락처 정보 확인</li>
                     <li>• 회사 소개 작성</li>
@@ -458,7 +458,7 @@ export default function VerificationStatusPage() {
                 <CardTitle>문의하기</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                <p className="text-sm text-gray-600 text-gray-500 mb-3">
                   검증 과정에서 궁금한 점이 있으시면 문의해주세요.
                 </p>
                 <Button variant="outline" className="w-full">

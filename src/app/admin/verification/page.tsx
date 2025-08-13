@@ -112,15 +112,15 @@ export default function AdminVerificationPage() {
   // 로딩 중이면 로딩 화면 표시
   if (loading || isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-600 text-gray-600">
               {loading ? '인증 확인 중...' : '데이터 로딩 중...'}
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            <p className="text-sm text-gray-500 text-gray-500 mt-2">
               잠시만 기다려주세요
             </p>
           </div>
@@ -132,7 +132,7 @@ export default function AdminVerificationPage() {
   // 로그인하지 않은 경우 리다이렉트 중 화면 표시
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -147,7 +147,7 @@ export default function AdminVerificationPage() {
   // 관리자가 아닌 경우 접근 제한
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -307,17 +307,17 @@ export default function AdminVerificationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
                 프로필 검증 관리
               </h1>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 text-gray-600">
                 강사 및 기업 프로필 검증 요청을 관리합니다.
               </p>
             </div>
@@ -510,7 +510,7 @@ export default function AdminVerificationPage() {
                     {selectedRequest.profile_data.bio && (
                       <div>
                         <span className="text-gray-500">자기소개:</span>
-                        <p className="mt-1 text-gray-700 dark:text-gray-300">{selectedRequest.profile_data.bio}</p>
+                        <p className="mt-1 text-gray-700 text-gray-600">{selectedRequest.profile_data.bio}</p>
                       </div>
                     )}
                     

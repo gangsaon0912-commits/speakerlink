@@ -282,7 +282,7 @@ export default function ProfileDashboardPage() {
   // 로딩 중이면 로딩 화면 표시
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -297,16 +297,16 @@ export default function ProfileDashboardPage() {
   // 프로필이 설정되지 않은 경우 프로필 유형 선택 페이지 표시
   if (!userType) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] px-4">
           <div className="w-full max-w-4xl">
             <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-4xl font-bold text-gray-900 text-gray-900 mb-4">
                 프로필 유형을 선택하세요
               </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300">
+              <p className="text-xl text-gray-600 text-gray-600">
                 강사온스쿨에서 어떤 역할로 활동하실 건가요?
               </p>
             </div>
@@ -330,8 +330,8 @@ export default function ProfileDashboardPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">강사가 할 수 있는 것:</h3>
-                    <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                    <h3 className="font-semibold text-gray-900 text-gray-900">강사가 할 수 있는 것:</h3>
+                    <ul className="text-sm text-gray-600 text-gray-600 space-y-1">
                       <li>• 전문 분야에 대한 강의 및 교육 제공</li>
                       <li>• 기업 맞춤형 교육 프로그램 개발</li>
                       <li>• 온라인/오프라인 강의 진행</li>
@@ -367,8 +367,8 @@ export default function ProfileDashboardPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">기업이 할 수 있는 것:</h3>
-                    <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                    <h3 className="font-semibold text-gray-900 text-gray-900">기업이 할 수 있는 것:</h3>
+                    <ul className="text-sm text-gray-600 text-gray-600 space-y-1">
                       <li>• 직원 교육 프로그램 구매</li>
                       <li>• 맞춤형 교육 서비스 요청</li>
                       <li>• 강사 매칭 및 예약</li>
@@ -388,7 +388,7 @@ export default function ProfileDashboardPage() {
             </div>
 
             <div className="text-center mt-8">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-gray-500 text-gray-500">
                 나중에 언제든지 프로필 유형을 변경할 수 있습니다.
               </p>
             </div>
@@ -400,7 +400,7 @@ export default function ProfileDashboardPage() {
 
   // 프로필 대시보드
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -408,10 +408,10 @@ export default function ProfileDashboardPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-3xl font-bold text-gray-900 text-gray-900">
                 프로필 대시보드
               </h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-1">
+              <p className="text-gray-600 text-gray-600 mt-1">
                 {profile?.full_name || user?.email}님의 프로필 정보입니다
               </p>
             </div>
@@ -466,7 +466,7 @@ export default function ProfileDashboardPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-lg mb-2">프로필 사진</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    <p className="text-sm text-gray-600 text-gray-500 mb-3">
                       프로필 사진을 업로드하여 더 나은 인상을 남겨보세요.
                     </p>
                     <div className="flex gap-2">
@@ -565,15 +565,15 @@ export default function ProfileDashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                     <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">0</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">완료된 프로젝트</div>
+                    <div className="text-sm text-gray-600 text-gray-500">완료된 프로젝트</div>
                   </div>
                   <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                     <div className="text-2xl font-bold text-green-600 dark:text-green-400">0</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">진행중인 프로젝트</div>
+                    <div className="text-sm text-gray-600 text-gray-500">진행중인 프로젝트</div>
                   </div>
                   <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                     <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">0</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">총 수익</div>
+                    <div className="text-sm text-gray-600 text-gray-500">총 수익</div>
                   </div>
                 </div>
               </CardContent>
@@ -686,12 +686,12 @@ export default function ProfileDashboardPage() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-sm">
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-gray-600 dark:text-gray-400">계정 생성</span>
+                    <span className="text-gray-600 text-gray-500">계정 생성</span>
                     <span className="text-gray-400 text-xs">방금 전</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-gray-600 dark:text-gray-400">프로필 설정</span>
+                    <span className="text-gray-600 text-gray-500">프로필 설정</span>
                     <span className="text-gray-400 text-xs">방금 전</span>
                   </div>
                 </div>
@@ -705,10 +705,10 @@ export default function ProfileDashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 text-sm">
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600 text-gray-500">
                     프로필을 완성하면 더 많은 기회를 얻을 수 있습니다.
                   </p>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600 text-gray-500">
                     검증을 받으면 신뢰도가 높아집니다.
                   </p>
                 </div>

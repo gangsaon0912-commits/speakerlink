@@ -235,7 +235,7 @@ export default function ProfileSetupPage() {
   // 로딩 중이면 로딩 화면 표시
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -248,16 +248,16 @@ export default function ProfileSetupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-gray-900 text-gray-900">
               프로필 설정
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-1">
+            <p className="text-gray-600 text-gray-600 mt-1">
               프로필을 완성하여 더 나은 서비스를 이용하세요
             </p>
           </div>
@@ -544,7 +544,7 @@ export default function ProfileSetupPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">기본 정보 입력</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         이름, 위치, 자기소개를 입력하세요.
                       </p>
                     </div>
@@ -556,7 +556,7 @@ export default function ProfileSetupPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">전문 정보 설정</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         전문 분야와 시급을 설정하세요.
                       </p>
                     </div>
@@ -568,7 +568,7 @@ export default function ProfileSetupPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">추가 정보</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         경력, 학력, 자격증, 언어, 가능 시간을 입력하세요.
                       </p>
                     </div>

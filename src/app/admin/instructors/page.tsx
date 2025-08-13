@@ -405,7 +405,7 @@ export default function AdminInstructorsPage() {
   // 로딩 중이거나 인증/권한 확인 중인 경우 로딩 화면 표시
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -428,17 +428,17 @@ export default function AdminInstructorsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
                 강사 관리
               </h1>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 text-gray-600">
                 등록된 강사들을 관리하고 검토합니다.
               </p>
             </div>

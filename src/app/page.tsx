@@ -16,7 +16,7 @@ export default function Home() {
   // 로딩 중이면 간단한 로딩 표시
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -32,23 +32,23 @@ export default function Home() {
   // (useAuth에서 이미 처리됨)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
 
       {/* Hero Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           {isAuthenticated && (
-            <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-              <p className="text-green-800 dark:text-green-200 font-medium">
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <p className="text-green-800 font-medium">
                 🎉 환영합니다! {profile?.full_name || user?.email}님
               </p>
             </div>
           )}
-          <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
             AI 기반 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">강사 매칭</span> 플랫폼
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             강사온스쿨는 강사와 기업을 효율적으로 연결하는 AI 기반 매칭 플랫폼입니다. 
             개인화된 알고리즘으로 최적의 매칭을 제공합니다.
           </p>
@@ -85,16 +85,16 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
             왜 강사온스쿨인가요?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
-                  <Zap className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <Zap className="w-6 h-6 text-blue-600" />
                 </div>
                 <CardTitle>AI 기반 매칭</CardTitle>
                 <CardDescription>
@@ -151,12 +151,12 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800">
+              <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            지금 시작하세요
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                      <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              지금 시작하세요
+            </h2>
+            <p className="text-lg text-gray-600 mb-8">
             강사온스쿨와 함께 성공적인 강사 매칭을 경험해보세요.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

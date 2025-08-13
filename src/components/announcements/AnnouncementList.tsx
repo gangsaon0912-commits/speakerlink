@@ -96,10 +96,10 @@ export default function AnnouncementList({ showCreateButton = false, className }
       {/* 헤더 */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-gray-900 text-gray-900">
             공지사항
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600 text-gray-600">
             최신 소식과 업데이트를 확인하세요
           </p>
         </div>
@@ -145,7 +145,7 @@ export default function AnnouncementList({ showCreateButton = false, className }
         <Card>
           <CardContent className="p-8 text-center">
             <Bell className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="text-gray-500 text-gray-500">
               {searchTerm || categoryFilter !== 'all' 
                 ? '검색 조건에 맞는 공지사항이 없습니다.' 
                 : '아직 등록된 공지사항이 없습니다.'}
@@ -187,7 +187,7 @@ export default function AnnouncementList({ showCreateButton = false, className }
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
-                    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center justify-between text-sm text-gray-500 text-gray-500">
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1">
                           <User className="w-4 h-4" />

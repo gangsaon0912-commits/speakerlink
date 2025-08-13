@@ -91,7 +91,7 @@ export default function CreateAnnouncementPage() {
 
   if (!user || !isAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -109,7 +109,7 @@ export default function CreateAnnouncementPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -122,10 +122,10 @@ export default function CreateAnnouncementPage() {
               </Button>
             </Link>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
             공지사항 작성
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600 text-gray-600">
             새로운 공지사항을 작성하여 사용자들에게 알립니다.
           </p>
         </div>
@@ -288,21 +288,21 @@ export default function CreateAnnouncementPage() {
                 <CardContent className="space-y-3 text-sm">
                   <div className="space-y-2">
                     <h4 className="font-medium">제목 작성</h4>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-gray-600 text-gray-500">
                       명확하고 간결한 제목을 사용하세요.
                     </p>
                   </div>
                   
                   <div className="space-y-2">
                     <h4 className="font-medium">내용 작성</h4>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-gray-600 text-gray-500">
                       중요한 정보는 상단에 배치하고, HTML 태그를 활용하여 가독성을 높이세요.
                     </p>
                   </div>
                   
                   <div className="space-y-2">
                     <h4 className="font-medium">카테고리 선택</h4>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-gray-600 text-gray-500">
                       공지사항의 성격에 맞는 카테고리를 선택하세요.
                     </p>
                   </div>

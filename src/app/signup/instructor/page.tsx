@@ -247,7 +247,7 @@ export default function InstructorSignupPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -260,10 +260,10 @@ export default function InstructorSignupPage() {
               </Button>
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-3xl font-bold text-gray-900 text-gray-900">
                 강사로 시작하기
               </h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-1">
+              <p className="text-gray-600 text-gray-600 mt-1">
                 강사 계정을 생성하고 프로필을 설정하세요
               </p>
             </div>
@@ -590,7 +590,7 @@ export default function InstructorSignupPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">기본 정보 입력</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         이메일, 비밀번호, 이름을 입력하세요.
                       </p>
                     </div>
@@ -602,7 +602,7 @@ export default function InstructorSignupPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">프로필 작성</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         위치, 자기소개, 전문 분야, 시급을 설정하세요.
                       </p>
                     </div>
@@ -614,7 +614,7 @@ export default function InstructorSignupPage() {
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">추가 정보</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray-600 text-gray-500">
                         경력, 학력, 자격증, 언어, 가능 시간을 입력하세요.
                       </p>
                     </div>

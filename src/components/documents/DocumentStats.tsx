@@ -26,7 +26,7 @@ export default function DocumentStats() {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">전체 문서</p>
+              <p className="text-sm font-medium text-gray-600 text-gray-500">전체 문서</p>
               <p className="text-2xl font-bold">{total}</p>
             </div>
             <FileText className="w-8 h-8 text-blue-500" />
@@ -38,7 +38,7 @@ export default function DocumentStats() {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">승인됨</p>
+              <p className="text-sm font-medium text-gray-600 text-gray-500">승인됨</p>
               <p className="text-2xl font-bold text-green-600">{approved}</p>
             </div>
             <CheckCircle className="w-8 h-8 text-green-500" />
@@ -50,7 +50,7 @@ export default function DocumentStats() {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">검토중</p>
+              <p className="text-sm font-medium text-gray-600 text-gray-500">검토중</p>
               <p className="text-2xl font-bold text-yellow-600">{pending}</p>
             </div>
             <Clock className="w-8 h-8 text-yellow-500" />
@@ -62,7 +62,7 @@ export default function DocumentStats() {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">거부됨</p>
+              <p className="text-sm font-medium text-gray-600 text-gray-500">거부됨</p>
               <p className="text-2xl font-bold text-red-600">{rejected}</p>
             </div>
             <XCircle className="w-8 h-8 text-red-500" />

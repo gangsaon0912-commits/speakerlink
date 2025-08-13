@@ -108,7 +108,7 @@ export default function AdminCompaniesPage() {
   // 인증 및 권한 확인 - 조건부 렌더링을 return 문으로 이동
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -123,7 +123,7 @@ export default function AdminCompaniesPage() {
   if (!isAuthenticated) {
     router.push('/login')
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -137,7 +137,7 @@ export default function AdminCompaniesPage() {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -234,15 +234,15 @@ export default function AdminCompaniesPage() {
   const industries = ['all', 'IT/소프트웨어', '금융', '제조업', '의료/바이오', '교육', '마케팅/광고', '기타']
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">기업 관리</h1>
-              <p className="text-gray-600 dark:text-gray-400">등록된 기업들을 관리할 수 있습니다.</p>
+              <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">기업 관리</h1>
+              <p className="text-gray-600 text-gray-500">등록된 기업들을 관리할 수 있습니다.</p>
             </div>
             <Button onClick={() => router.push('/admin')} variant="outline" className="flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" />
@@ -295,7 +295,7 @@ export default function AdminCompaniesPage() {
                       </Avatar>
                       <div>
                         <h3 className="font-semibold text-lg">{company.company_name}</h3>
-                        <p className="text-gray-600 dark:text-gray-400">
+                        <p className="text-gray-600 text-gray-500">
                           {company.profile?.full_name} • {company.profile?.email}
                         </p>
                         <div className="flex items-center space-x-2 mt-1">
@@ -330,10 +330,10 @@ export default function AdminCompaniesPage() {
           <Card>
             <CardContent className="p-8 text-center">
               <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 text-gray-900 mb-2">
                 등록된 기업이 없습니다
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-600 text-gray-500">
                 검색 조건을 변경해보세요.
               </p>
             </CardContent>
@@ -378,7 +378,7 @@ export default function AdminCompaniesPage() {
                       onChange={(e) => setEditForm({...editForm, company_name: e.target.value})}
                     />
                   ) : (
-                    <p className="text-gray-900 dark:text-white">{selectedDetail.company_name}</p>
+                    <p className="text-gray-900 text-gray-900">{selectedDetail.company_name}</p>
                   )}
                 </div>
 
@@ -390,7 +390,7 @@ export default function AdminCompaniesPage() {
                       onChange={(e) => setEditForm({...editForm, industry: e.target.value})}
                     />
                   ) : (
-                    <p className="text-gray-900 dark:text-white">{selectedDetail.industry}</p>
+                    <p className="text-gray-900 text-gray-900">{selectedDetail.industry}</p>
                   )}
                 </div>
 
@@ -402,7 +402,7 @@ export default function AdminCompaniesPage() {
                       onChange={(e) => setEditForm({...editForm, company_size: e.target.value})}
                     />
                   ) : (
-                    <p className="text-gray-900 dark:text-white">{selectedDetail.company_size}</p>
+                    <p className="text-gray-900 text-gray-900">{selectedDetail.company_size}</p>
                   )}
                 </div>
 
@@ -416,13 +416,13 @@ export default function AdminCompaniesPage() {
                       rows={4}
                     />
                   ) : (
-                    <p className="text-gray-900 dark:text-white">{selectedDetail.description}</p>
+                    <p className="text-gray-900 text-gray-900">{selectedDetail.description}</p>
                   )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-1">담당자 정보</label>
-                  <p className="text-gray-900 dark:text-white">
+                  <p className="text-gray-900 text-gray-900">
                     {selectedDetail.profile?.full_name} ({selectedDetail.profile?.email})
                   </p>
                 </div>
@@ -461,7 +461,7 @@ export default function AdminCompaniesPage() {
           <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full">
             <div className="p-6">
               <h3 className="text-lg font-semibold mb-4">기업 삭제 확인</h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
+              <p className="text-gray-600 text-gray-500 mb-6">
                 "{companyToDelete.company_name}" 기업을 삭제하시겠습니까?<br />
                 이 작업은 되돌릴 수 없습니다.
               </p>

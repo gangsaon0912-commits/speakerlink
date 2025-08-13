@@ -354,18 +354,18 @@ export default function ProjectDetailPage() {
       case '비즈니스':
         return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300'
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 text-gray-600'
     }
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-400">로딩 중...</p>
+            <p className="text-gray-600 text-gray-500">로딩 중...</p>
           </div>
         </div>
       </div>
@@ -374,7 +374,7 @@ export default function ProjectDetailPage() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -397,7 +397,7 @@ export default function ProjectDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -479,7 +479,7 @@ export default function ProjectDetailPage() {
                   <CardTitle>추가 정보</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600 text-gray-500">
                     {project.additional_info}
                   </p>
                 </CardContent>
@@ -525,7 +525,7 @@ export default function ProjectDetailPage() {
                             </Badge>
                           </div>
                         </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                        <p className="text-sm text-gray-600 text-gray-500 line-clamp-2">
                           {application.proposal}
                         </p>
                       </div>
@@ -543,7 +543,7 @@ export default function ProjectDetailPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-4">
-                    <p className="text-lg font-medium text-gray-600 dark:text-gray-400">
+                    <p className="text-lg font-medium text-gray-600 text-gray-500">
                       현재 {applications.length}명이 지원했습니다
                     </p>
                     <p className="text-sm text-gray-500 mt-2">
@@ -572,12 +572,12 @@ export default function ProjectDetailPage() {
                   </Avatar>
                   <div>
                     <h3 className="font-semibold">{project.company_name}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 text-gray-500">
                       프로젝트 등록 기업
                     </p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-sm text-gray-600 text-gray-500">
                   {project.company_description}
                 </p>
               </CardContent>

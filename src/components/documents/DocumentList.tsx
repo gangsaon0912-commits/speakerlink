@@ -45,7 +45,7 @@ const documentTypeConfig = {
   other: {
     label: '기타',
     icon: <FileText className="w-4 h-4" />,
-    color: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+    color: 'bg-gray-100 text-gray-800 dark:bg-gray-900 text-gray-600'
   }
 }
 
@@ -242,11 +242,11 @@ export default function DocumentList({
                           </Badge>
                         </div>
                         
-                        <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                        <div className="text-sm text-gray-600 text-gray-500 space-y-1">
                           <p>크기: {formatFileSize(document.file_size)}</p>
                           <p>업로드: {formatDate(document.uploaded_at)}</p>
                           {document.description && (
-                            <p className="text-gray-700 dark:text-gray-300">
+                            <p className="text-gray-700 text-gray-600">
                               설명: {document.description}
                             </p>
                           )}
@@ -324,7 +324,7 @@ export default function DocumentList({
               {selectedDocument.description && (
                 <div>
                   <h4 className="font-medium mb-2">설명</h4>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600 text-gray-500">
                     {selectedDocument.description}
                   </p>
                 </div>

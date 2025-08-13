@@ -260,16 +260,16 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* 헤더 */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-4xl font-bold text-gray-900 text-gray-900 mb-4">
             강사진 소개
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 text-gray-600 max-w-3xl mx-auto">
             강사온스쿨의 전문 강사진을 소개합니다. 각 분야의 전문가들이 최고의 교육을 제공합니다.
           </p>
         </div>
@@ -282,7 +282,7 @@ export default function AboutPage() {
                 <Users className="w-8 h-8 text-blue-600 mr-3" />
                 <div>
                   <p className="text-2xl font-bold">{mockInstructors.length}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">전문 강사</p>
+                  <p className="text-sm text-gray-600 text-gray-500">전문 강사</p>
                 </div>
               </div>
             </CardContent>
@@ -294,7 +294,7 @@ export default function AboutPage() {
                 <Award className="w-8 h-8 text-green-600 mr-3" />
                 <div>
                   <p className="text-2xl font-bold">{allExpertise.length}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">전문 분야</p>
+                  <p className="text-sm text-gray-600 text-gray-500">전문 분야</p>
                 </div>
               </div>
             </CardContent>
@@ -306,7 +306,7 @@ export default function AboutPage() {
                 <MapPin className="w-8 h-8 text-purple-600 mr-3" />
                 <div>
                   <p className="text-2xl font-bold">{allLocations.length}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">활동 지역</p>
+                  <p className="text-sm text-gray-600 text-gray-500">활동 지역</p>
                 </div>
               </div>
             </CardContent>
@@ -318,7 +318,7 @@ export default function AboutPage() {
                 <Star className="w-8 h-8 text-yellow-600 mr-3" />
                 <div>
                   <p className="text-2xl font-bold">4.8</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">평균 평점</p>
+                  <p className="text-sm text-gray-600 text-gray-500">평균 평점</p>
                 </div>
               </div>
             </CardContent>
@@ -388,10 +388,10 @@ export default function AboutPage() {
         {sortedInstructors.length === 0 ? (
           <div className="text-center py-12">
             <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 className="text-lg font-medium text-gray-900 text-gray-900 mb-2">
               검색 결과가 없습니다
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 text-gray-500">
               다른 검색어나 필터를 시도해보세요.
             </p>
           </div>
@@ -410,14 +410,14 @@ export default function AboutPage() {
                       </Avatar>
                       <div>
                         <CardTitle className="text-lg">{instructor.full_name}</CardTitle>
-                        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center text-sm text-gray-600 text-gray-500">
                           <MapPin className="w-3 h-3 mr-1" />
                           {instructor.location || '지역 미설정'}
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <div className="flex items-center text-sm text-gray-600 text-gray-500">
                         <DollarSign className="w-3 h-3 mr-1" />
                         {instructor.hourly_rate ? `${formatPrice(instructor.hourly_rate)}원/시간` : '가격 미설정'}
                       </div>
@@ -429,7 +429,7 @@ export default function AboutPage() {
                   {/* 전문분야 */}
                   {instructor.expertise && instructor.expertise.length > 0 && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">전문분야</h4>
+                      <h4 className="text-sm font-medium text-gray-700 text-gray-600 mb-2">전문분야</h4>
                       <div className="flex flex-wrap gap-1">
                         {instructor.expertise.slice(0, 3).map((exp, index) => (
                           <Badge 
@@ -452,8 +452,8 @@ export default function AboutPage() {
                   {/* 소개 */}
                   {instructor.bio && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">소개</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+                      <h4 className="text-sm font-medium text-gray-700 text-gray-600 mb-2">소개</h4>
+                      <p className="text-sm text-gray-600 text-gray-500 line-clamp-3">
                         {instructor.bio}
                       </p>
                     </div>
@@ -462,8 +462,8 @@ export default function AboutPage() {
                   {/* 경력 */}
                   {instructor.experience && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">경력</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <h4 className="text-sm font-medium text-gray-700 text-gray-600 mb-2">경력</h4>
+                      <p className="text-sm text-gray-600 text-gray-500">
                         {instructor.experience}
                       </p>
                     </div>

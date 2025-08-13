@@ -131,13 +131,13 @@ export default function CreateProjectPage() {
       case '비즈니스':
         return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300'
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 text-gray-600'
     }
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -159,7 +159,7 @@ export default function CreateProjectPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -172,10 +172,10 @@ export default function CreateProjectPage() {
               </Button>
             </Link>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
             프로젝트 등록
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600 text-gray-600">
             새로운 프로젝트를 등록하고 적합한 전문가를 찾아보세요.
           </p>
         </div>
@@ -365,7 +365,7 @@ export default function CreateProjectPage() {
                   )}
                   
                   {formData.description && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+                    <p className="text-sm text-gray-600 text-gray-500 line-clamp-3">
                       {formData.description}
                     </p>
                   )}
@@ -413,21 +413,21 @@ export default function CreateProjectPage() {
                 <CardContent className="space-y-3 text-sm">
                   <div className="space-y-2">
                     <h4 className="font-medium">프로젝트 제목</h4>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-gray-600 text-gray-500">
                       명확하고 구체적인 제목을 사용하세요.
                     </p>
                   </div>
                   
                   <div className="space-y-2">
                     <h4 className="font-medium">프로젝트 설명</h4>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-gray-600 text-gray-500">
                       목표, 범위, 기대 결과를 포함하여 작성하세요.
                     </p>
                   </div>
                   
                   <div className="space-y-2">
                     <h4 className="font-medium">요구사항</h4>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-gray-600 text-gray-500">
                       필요한 기술, 경험, 자격을 구체적으로 명시하세요.
                     </p>
                   </div>

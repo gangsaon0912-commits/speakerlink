@@ -116,7 +116,7 @@ function VerifyEmailContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -220,7 +220,7 @@ function VerifyEmailContent() {
             )}
 
             {/* 안내 메시지 */}
-            <div className="text-center text-sm text-gray-600 dark:text-gray-400 space-y-2">
+            <div className="text-center text-sm text-gray-600 text-gray-500 space-y-2">
               <p>
                 이메일을 확인하지 못하셨나요? 스팸 폴더도 확인해보세요.
               </p>

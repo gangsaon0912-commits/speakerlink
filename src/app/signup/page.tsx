@@ -74,16 +74,16 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="w-full max-w-4xl">
                               <div className="text-center mb-8">
-                      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                      <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
                         강사온스쿨에 가입하세요
                       </h1>
-                      <p className="text-gray-600 dark:text-gray-300">
+                      <p className="text-gray-600 text-gray-600">
                         원하는 방식으로 시작하세요
                       </p>
                     </div>
@@ -94,10 +94,10 @@ export default function SignupPage() {
                 <User className="w-10 h-10 text-white" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <h2 className="text-2xl font-bold text-gray-900 text-gray-900 mb-2">
               빠른 시작
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 max-w-md mx-auto">
+            <p className="text-gray-600 text-gray-600 max-w-md mx-auto">
               간단한 회원가입으로 시작하고 나중에 프로필을 완성하세요
             </p>
             
@@ -105,19 +105,19 @@ export default function SignupPage() {
             <div className="flex flex-wrap justify-center gap-6 mt-6">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-gray-600 dark:text-gray-400">빠른 계정 생성</span>
+                <span className="text-sm text-gray-600 text-gray-500">빠른 계정 생성</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-gray-600 dark:text-gray-400">단계별 프로필 설정</span>
+                <span className="text-sm text-gray-600 text-gray-500">단계별 프로필 설정</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-gray-600 dark:text-gray-400">유연한 정보 입력</span>
+                <span className="text-sm text-gray-600 text-gray-500">유연한 정보 입력</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-gray-600 dark:text-gray-400">즉시 서비스 이용</span>
+                <span className="text-sm text-gray-600 text-gray-500">즉시 서비스 이용</span>
               </div>
             </div>
           </div>
@@ -248,7 +248,7 @@ export default function SignupPage() {
                     {loading ? '회원가입 중...' : '회원가입'}
                   </Button>
 
-                  <div className="text-center text-sm text-gray-600 dark:text-gray-400">
+                  <div className="text-center text-sm text-gray-600 text-gray-500">
                     이미 계정이 있으신가요?{' '}
                     <Link
                       href="/login"

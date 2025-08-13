@@ -163,30 +163,29 @@ export default function ProjectsPage() {
       case '비즈니스':
         return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300'
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+        return 'bg-gray-100 text-gray-800'
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                프로젝트
-              </h1>
-              <p className="text-gray-600 dark:text-gray-300">
-                다양한 분야의 프로젝트를 찾아보세요
-                {pagination.total > 0 && (
-                  <span className="ml-2 text-sm text-gray-500">
-                    (총 {pagination.total}개)
-                  </span>
-                )}
-              </p>
-            </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              프로젝트
+            </h1>
+            <p className="text-gray-600">
+              다양한 분야의 프로젝트를 찾아보세요
+              {pagination.total > 0 && (
+                <span className="ml-2 text-sm text-gray-500">
+                  (총 {pagination.total}개)
+                </span>
+              )}
+            </p>
+          </div>
             {user && (
               <Link href="/projects/create">
                 <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
@@ -196,18 +195,19 @@ export default function ProjectsPage() {
               </Link>
             )}
           </div>
-        </div>
 
         {/* 필터 및 검색 */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8 items-start">
-          <div className="relative flex-1 min-w-0">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="프로젝트 제목, 설명, 요구사항으로 검색..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="md:col-span-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
+                placeholder="프로젝트 제목, 설명, 요구사항으로 검색..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
           </div>
           
           <div className="flex gap-4 flex-wrap">
@@ -278,9 +278,9 @@ export default function ProjectsPage() {
         {/* 프로젝트 목록 */}
         {!loading && !error && (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="space-y-4">
               {projects.map((project) => (
-                <Card key={project.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <Card key={project.id} className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardHeader>
                     <div className="flex justify-between items-start mb-2">
                       <Badge className={`${getCategoryColor(project.category)} flex items-center gap-1`}>
@@ -289,17 +289,17 @@ export default function ProjectsPage() {
                       </Badge>
                       {getStatusBadge(project.status)}
                     </div>
-                    <CardTitle className="text-lg line-clamp-2">
+                    <CardTitle className="text-lg">
                       <Link href={`/projects/${project.id}`} className="hover:text-blue-600">
                         {project.title}
                       </Link>
                     </CardTitle>
-                    <CardDescription className="line-clamp-3">
+                    <CardDescription>
                       {project.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
                       <Building2 className="w-4 h-4" />
                       <span>{project.company_name}</span>
                     </div>
@@ -377,7 +377,7 @@ export default function ProjectsPage() {
         {!loading && !error && projects.length === 0 && (
           <Card>
             <CardContent className="p-8 text-center">
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-gray-500">
                 검색 조건에 맞는 프로젝트가 없습니다.
               </p>
             </CardContent>

@@ -105,15 +105,15 @@ export default function CompanyProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              기업 프로필
-            </h1>
+                          <h1 className="text-3xl font-bold text-gray-900">
+                기업 프로필
+              </h1>
             <div className="flex gap-2">
               {isEditing ? (
                 <>
@@ -337,7 +337,7 @@ export default function CompanyProfilePage() {
                     <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                       {profile.projects}
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                    <div className="text-sm text-gray-600 text-gray-500">
                       총 프로젝트
                     </div>
                   </div>
@@ -345,7 +345,7 @@ export default function CompanyProfilePage() {
                     <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                       {profile.completedProjects}
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                    <div className="text-sm text-gray-600 text-gray-500">
                       완료된 프로젝트
                     </div>
                   </div>

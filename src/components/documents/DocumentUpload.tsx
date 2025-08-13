@@ -220,7 +220,7 @@ export default function DocumentUpload({ onUploadSuccess, className }: DocumentU
             </SelectContent>
           </Select>
           {selectedType && (
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-600 text-gray-500">
               {selectedType.description}
             </p>
           )}

@@ -51,7 +51,7 @@ export default function DocumentsPage() {
   // 로딩 중이면 로딩 화면 표시
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -66,7 +66,7 @@ export default function DocumentsPage() {
   // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -89,17 +89,19 @@ export default function DocumentsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            문서 관리
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            프로필 검증에 필요한 문서를 업로드하고 관리하세요
-          </p>
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              문서 관리
+            </h1>
+            <p className="text-gray-600">
+              프로필 검증에 필요한 문서를 업로드하고 관리하세요
+            </p>
+          </div>
         </div>
 
         {/* 통계 카드 */}
@@ -136,7 +138,7 @@ export default function DocumentsPage() {
                       <CheckCircle className="w-4 h-4 text-green-500" />
                       자격증/수료증
                     </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 text-gray-500">
                       관련 자격증이나 수료증을 업로드하여 전문성을 증명하세요.
                     </p>
                   </div>
@@ -146,7 +148,7 @@ export default function DocumentsPage() {
                       <CheckCircle className="w-4 h-4 text-green-500" />
                       포트폴리오
                     </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 text-gray-500">
                       작업물이나 포트폴리오를 업로드하여 실력을 보여주세요.
                     </p>
                   </div>
@@ -202,7 +204,7 @@ export default function DocumentsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h4 className="font-medium mb-2">지원 파일 형식</h4>
-                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <ul className="text-sm text-gray-600 text-gray-500 space-y-1">
                   <li>• PDF 문서 (.pdf)</li>
                   <li>• 이미지 파일 (.jpg, .jpeg, .png, .gif)</li>
                   <li>• Word 문서 (.doc, .docx)</li>
@@ -211,7 +213,7 @@ export default function DocumentsPage() {
               
               <div>
                 <h4 className="font-medium mb-2">파일 크기 제한</h4>
-                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <ul className="text-sm text-gray-600 text-gray-500 space-y-1">
                   <li>• 최대 파일 크기: 10MB</li>
                   <li>• 여러 파일을 개별적으로 업로드</li>
                   <li>• 파일명에 특수문자 사용 자제</li>
@@ -220,7 +222,7 @@ export default function DocumentsPage() {
               
               <div>
                 <h4 className="font-medium mb-2">보안 및 개인정보</h4>
-                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <ul className="text-sm text-gray-600 text-gray-500 space-y-1">
                   <li>• 업로드된 문서는 안전하게 암호화</li>
                   <li>• 관리자만 문서 내용 확인 가능</li>
                   <li>• 검증 완료 후 필요시 삭제 가능</li>
@@ -229,7 +231,7 @@ export default function DocumentsPage() {
               
               <div>
                 <h4 className="font-medium mb-2">검토 프로세스</h4>
-                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <ul className="text-sm text-gray-600 text-gray-500 space-y-1">
                   <li>• 업로드 후 1-3일 내 검토</li>
                   <li>• 승인/거부 결과 이메일 알림</li>
                   <li>• 거부 시 사유 안내 및 재업로드 가능</li>
