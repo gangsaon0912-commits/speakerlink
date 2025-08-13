@@ -55,7 +55,7 @@ export default function LoginPage({
   // 로딩 중이거나 이미 로그인된 경우 로딩 화면 표시
   if (loading || isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
@@ -103,7 +103,7 @@ export default function LoginPage({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] px-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
@@ -176,7 +176,7 @@ export default function LoginPage({
               <div className="flex items-center justify-between">
                 <Link
                   href="/forgot-password"
-                  className="text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                  className="text-sm text-blue-600 hover:text-blue-500"
                 >
                   비밀번호를 잊으셨나요?
                 </Link>
@@ -190,12 +190,12 @@ export default function LoginPage({
                 {loading ? '로그인 중...' : '로그인'}
               </Button>
 
-                                    <div className="text-center text-sm text-gray-600 dark:text-gray-400 space-y-2">
+                                    <div className="text-center text-sm text-gray-600 space-y-2">
                         <div>
                           계정이 없으신가요?{' '}
                           <Link
                             href="/signup"
-                            className="text-blue-600 hover:text-blue-500 dark:text-blue-400 font-medium"
+                            className="text-blue-600 hover:text-blue-500 font-medium"
                           >
                             회원가입
                           </Link>
@@ -205,7 +205,7 @@ export default function LoginPage({
                           로그인 후{' '}
                           <Link
                             href="/profile"
-                            className="text-blue-600 hover:text-blue-500 dark:text-blue-400 font-medium"
+                            className="text-blue-600 hover:text-blue-500 font-medium"
                           >
                             프로필 관리
                           </Link>
