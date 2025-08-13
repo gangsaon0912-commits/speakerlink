@@ -94,18 +94,18 @@ export default function AnnouncementList({ showCreateButton = false, className }
   return (
     <div className={className}>
       {/* 헤더 */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
             공지사항
           </h1>
-          <p className="text-gray-600 text-gray-600">
+          <p className="text-gray-600 text-lg">
             최신 소식과 업데이트를 확인하세요
           </p>
         </div>
         {showCreateButton && isAdmin && (
           <Link href="/admin/announcements/create">
-            <Button>
+            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg">
               <Plus className="w-4 h-4 mr-2" />
               공지사항 작성
             </Button>
@@ -114,20 +114,18 @@ export default function AnnouncementList({ showCreateButton = false, className }
       </div>
 
       {/* 필터 및 검색 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="md:col-span-2">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="공지사항 제목 또는 내용으로 검색..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
+      <div className="flex flex-col md:flex-row gap-4 mb-6 items-start">
+        <div className="relative flex-1 min-w-0">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Input
+            placeholder="공지사항 제목 또는 내용으로 검색..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
         </div>
         <Select value={categoryFilter} onValueChange={(value: Announcement['category'] | 'all') => setCategoryFilter(value)}>
-          <SelectTrigger>
+          <SelectTrigger className="w-40">
             <SelectValue placeholder="카테고리" />
           </SelectTrigger>
           <SelectContent>
@@ -142,13 +140,18 @@ export default function AnnouncementList({ showCreateButton = false, className }
 
       {/* 공지사항 목록 */}
       {filteredAnnouncements.length === 0 ? (
-        <Card>
-          <CardContent className="p-8 text-center">
-            <Bell className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-            <p className="text-gray-500 text-gray-500">
+        <Card className="border-dashed border-2 border-gray-200 bg-gray-50">
+          <CardContent className="p-12 text-center">
+            <Bell className="w-16 h-16 mx-auto text-gray-300 mb-4" />
+            <h3 className="text-lg font-medium text-gray-600 mb-2">
               {searchTerm || categoryFilter !== 'all' 
-                ? '검색 조건에 맞는 공지사항이 없습니다.' 
-                : '아직 등록된 공지사항이 없습니다.'}
+                ? '검색 결과가 없습니다' 
+                : '등록된 공지사항이 없습니다'}
+            </h3>
+            <p className="text-gray-500">
+              {searchTerm || categoryFilter !== 'all' 
+                ? '다른 검색어나 필터를 시도해보세요.' 
+                : '새로운 공지사항이 등록되면 여기에 표시됩니다.'}
             </p>
           </CardContent>
         </Card>
@@ -160,47 +163,50 @@ export default function AnnouncementList({ showCreateButton = false, className }
             return (
               <Card 
                 key={announcement.id} 
-                className={`hover:shadow-md transition-shadow cursor-pointer ${
-                  announcement.is_pinned ? 'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950' : ''
+                className={`hover:shadow-lg transition-all duration-200 cursor-pointer border-l-4 ${
+                  announcement.is_pinned 
+                    ? 'border-l-blue-500 bg-gradient-to-r from-blue-50 to-white' 
+                    : 'border-l-transparent hover:border-l-gray-200'
                 }`}
               >
                 <Link href={`/announcements/${announcement.id}`}>
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between">
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="flex items-center gap-2 mb-3">
                           {announcement.is_pinned && (
-                            <Pin className="w-4 h-4 text-blue-600" />
+                            <Pin className="w-4 h-4 text-blue-600 animate-pulse" />
                           )}
-                          <Badge className={`${category.color} flex items-center gap-1`}>
+                          <Badge className={`${category.color} flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium`}>
                             {category.icon}
                             {category.label}
                           </Badge>
                         </div>
-                        <CardTitle className="text-lg line-clamp-1">
+                        <CardTitle className="text-xl font-semibold mb-2 hover:text-blue-600 transition-colors">
                           {announcement.title}
                         </CardTitle>
-                        <CardDescription className="line-clamp-2 mt-2">
-                          {announcement.content.replace(/<[^>]*>/g, '')}
+                        <CardDescription className="text-gray-600 leading-relaxed">
+                          {announcement.content.replace(/<[^>]*>/g, '').substring(0, 120)}
+                          {announcement.content.replace(/<[^>]*>/g, '').length > 120 && '...'}
                         </CardDescription>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
-                    <div className="flex items-center justify-between text-sm text-gray-500 text-gray-500">
-                      <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-between text-sm text-gray-500 border-t pt-3">
+                      <div className="flex items-center gap-6">
                         <div className="flex items-center gap-1">
-                          <User className="w-4 h-4" />
-                          <span>{announcement.author_name}</span>
+                          <User className="w-4 h-4 text-gray-400" />
+                          <span className="font-medium">{announcement.author_name}</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
+                          <Calendar className="w-4 h-4 text-gray-400" />
                           <span>{formatDate(announcement.created_at)}</span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Eye className="w-4 h-4" />
-                        <span>{announcement.view_count || 0}</span>
+                      <div className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
+                        <Eye className="w-3 h-3 text-gray-500" />
+                        <span className="text-xs font-medium">{announcement.view_count || 0}</span>
                       </div>
                     </div>
                   </CardContent>

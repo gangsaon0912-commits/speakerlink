@@ -266,81 +266,76 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* 헤더 */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 text-gray-900 mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-6">
+            <Users className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
             강사진 소개
           </h1>
-          <p className="text-xl text-gray-600 text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             강사온스쿨의 전문 강사진을 소개합니다. 각 분야의 전문가들이 최고의 교육을 제공합니다.
           </p>
         </div>
 
         {/* 통계 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <Users className="w-8 h-8 text-blue-600 mr-3" />
-                <div>
-                  <p className="text-2xl font-bold">{mockInstructors.length}</p>
-                  <p className="text-sm text-gray-600 text-gray-500">전문 강사</p>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:shadow-lg transition-all duration-200">
+            <CardContent className="p-8 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-full mb-4">
+                <Users className="w-6 h-6 text-white" />
               </div>
+              <p className="text-3xl font-bold text-blue-900 mb-2">{mockInstructors.length}</p>
+              <p className="text-sm font-medium text-blue-700">전문 강사</p>
             </CardContent>
           </Card>
           
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <Award className="w-8 h-8 text-green-600 mr-3" />
-                <div>
-                  <p className="text-2xl font-bold">{allExpertise.length}</p>
-                  <p className="text-sm text-gray-600 text-gray-500">전문 분야</p>
-                </div>
+          <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 hover:shadow-lg transition-all duration-200">
+            <CardContent className="p-8 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-green-600 rounded-full mb-4">
+                <Award className="w-6 h-6 text-white" />
               </div>
+              <p className="text-3xl font-bold text-green-900 mb-2">{allExpertise.length}</p>
+              <p className="text-sm font-medium text-green-700">전문 분야</p>
             </CardContent>
           </Card>
           
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <MapPin className="w-8 h-8 text-purple-600 mr-3" />
-                <div>
-                  <p className="text-2xl font-bold">{allLocations.length}</p>
-                  <p className="text-sm text-gray-600 text-gray-500">활동 지역</p>
-                </div>
+          <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 hover:shadow-lg transition-all duration-200">
+            <CardContent className="p-8 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-600 rounded-full mb-4">
+                <MapPin className="w-6 h-6 text-white" />
               </div>
+              <p className="text-3xl font-bold text-purple-900 mb-2">{allLocations.length}</p>
+              <p className="text-sm font-medium text-purple-700">활동 지역</p>
             </CardContent>
           </Card>
           
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <Star className="w-8 h-8 text-yellow-600 mr-3" />
-                <div>
-                  <p className="text-2xl font-bold">4.8</p>
-                  <p className="text-sm text-gray-600 text-gray-500">평균 평점</p>
-                </div>
+          <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200 hover:shadow-lg transition-all duration-200">
+            <CardContent className="p-8 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-yellow-600 rounded-full mb-4">
+                <Star className="w-6 h-6 text-white" />
               </div>
+              <p className="text-3xl font-bold text-yellow-900 mb-2">4.8</p>
+              <p className="text-sm font-medium text-yellow-700">평균 평점</p>
             </CardContent>
           </Card>
         </div>
 
         {/* 검색 및 필터 */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-sm">
-          <div className="flex flex-col md:flex-row gap-4 items-start">
+        <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-8 mb-12 shadow-sm border border-gray-200">
+          <div className="flex flex-col md:flex-row gap-6 items-start">
             <div className="relative flex-1 min-w-0">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
                 placeholder="강사명, 전문분야로 검색..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-12 h-12 text-lg border-2 border-gray-200 focus:border-blue-500 rounded-lg"
               />
             </div>
             
             <div className="flex gap-4 flex-wrap">
               <Select value={expertiseFilter} onValueChange={setExpertiseFilter}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-48 h-12 border-2 border-gray-200 focus:border-blue-500 rounded-lg">
                   <SelectValue placeholder="전문분야 선택" />
                 </SelectTrigger>
                 <SelectContent>
@@ -354,7 +349,7 @@ export default function AboutPage() {
               </Select>
               
               <Select value={locationFilter} onValueChange={setLocationFilter}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-40 h-12 border-2 border-gray-200 focus:border-blue-500 rounded-lg">
                   <SelectValue placeholder="지역 선택" />
                 </SelectTrigger>
                 <SelectContent>
@@ -368,7 +363,7 @@ export default function AboutPage() {
               </Select>
 
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-48 h-12 border-2 border-gray-200 focus:border-blue-500 rounded-lg">
                   <SelectValue placeholder="정렬 기준" />
                 </SelectTrigger>
                 <SelectContent>
@@ -386,63 +381,70 @@ export default function AboutPage() {
 
         {/* 강사 목록 */}
         {sortedInstructors.length === 0 ? (
-          <div className="text-center py-12">
-            <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 text-gray-900 mb-2">
+          <div className="text-center py-16">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-6">
+              <Users className="w-10 h-10 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-3">
               검색 결과가 없습니다
             </h3>
-            <p className="text-gray-600 text-gray-500">
-              다른 검색어나 필터를 시도해보세요.
+            <p className="text-gray-600 max-w-md mx-auto">
+              다른 검색어나 필터를 시도해보세요. 다양한 전문분야의 강사들이 기다리고 있습니다.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {sortedInstructors.map((instructor) => (
-              <Card key={instructor.id} className="hover:shadow-lg transition-shadow">
+              <Card key={instructor.id} className="hover:shadow-xl transition-all duration-300 border-2 border-gray-100 hover:border-blue-200 group">
                 <CardHeader className="pb-4">
                   <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-3">
-                      <Avatar className="w-12 h-12">
+                    <div className="flex items-center space-x-4">
+                      <Avatar className="w-16 h-16 ring-4 ring-blue-100 group-hover:ring-blue-200 transition-all">
                         <AvatarImage src={instructor.avatar_url || undefined} />
-                        <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                        <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold">
                           {instructor.full_name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <CardTitle className="text-lg">{instructor.full_name}</CardTitle>
-                        <div className="flex items-center text-sm text-gray-600 text-gray-500">
-                          <MapPin className="w-3 h-3 mr-1" />
+                        <CardTitle className="text-xl font-bold group-hover:text-blue-600 transition-colors">
+                          {instructor.full_name}
+                        </CardTitle>
+                        <div className="flex items-center text-sm text-gray-600 mt-1">
+                          <MapPin className="w-4 h-4 mr-1 text-gray-400" />
                           {instructor.location || '지역 미설정'}
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="flex items-center text-sm text-gray-600 text-gray-500">
-                        <DollarSign className="w-3 h-3 mr-1" />
+                      <div className="flex items-center text-sm font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                        <DollarSign className="w-4 h-4 mr-1" />
                         {instructor.hourly_rate ? `${formatPrice(instructor.hourly_rate)}원/시간` : '가격 미설정'}
                       </div>
                     </div>
                   </div>
                 </CardHeader>
                 
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
                   {/* 전문분야 */}
                   {instructor.expertise && instructor.expertise.length > 0 && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 text-gray-600 mb-2">전문분야</h4>
-                      <div className="flex flex-wrap gap-1">
+                      <h4 className="text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                        <Award className="w-4 h-4 mr-2 text-blue-600" />
+                        전문분야
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
                         {instructor.expertise.slice(0, 3).map((exp, index) => (
                           <Badge 
                             key={index} 
                             variant="secondary" 
-                            className={`text-xs ${getExpertiseColor(exp)}`}
+                            className={`text-xs px-3 py-1 rounded-full font-medium ${getExpertiseColor(exp)}`}
                           >
                             {exp}
                           </Badge>
                         ))}
                         {instructor.expertise.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{instructor.expertise.length - 3}
+                          <Badge variant="outline" className="text-xs px-3 py-1 rounded-full">
+                            +{instructor.expertise.length - 3}개 더
                           </Badge>
                         )}
                       </div>
@@ -452,9 +454,13 @@ export default function AboutPage() {
                   {/* 소개 */}
                   {instructor.bio && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 text-gray-600 mb-2">소개</h4>
-                      <p className="text-sm text-gray-600 text-gray-500 line-clamp-3">
-                        {instructor.bio}
+                      <h4 className="text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                        <BookOpen className="w-4 h-4 mr-2 text-green-600" />
+                        소개
+                      </h4>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        {instructor.bio.substring(0, 100)}
+                        {instructor.bio.length > 100 && '...'}
                       </p>
                     </div>
                   )}
@@ -462,24 +468,27 @@ export default function AboutPage() {
                   {/* 경력 */}
                   {instructor.experience && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 text-gray-600 mb-2">경력</h4>
-                      <p className="text-sm text-gray-600 text-gray-500">
+                      <h4 className="text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                        <Clock className="w-4 h-4 mr-2 text-purple-600" />
+                        경력
+                      </h4>
+                      <p className="text-sm text-gray-600 font-medium">
                         {instructor.experience}
                       </p>
                     </div>
                   )}
 
                   {/* 액션 버튼 */}
-                  <div className="flex gap-2 pt-2">
-                    <Button size="sm" className="flex-1" asChild>
+                  <div className="flex gap-3 pt-4 border-t border-gray-100">
+                    <Button size="sm" className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" asChild>
                       <Link href={`/projects?instructor=${instructor.id}`}>
-                        <Eye className="w-4 h-4 mr-1" />
+                        <Eye className="w-4 h-4 mr-2" />
                         프로젝트 보기
                       </Link>
                     </Button>
-                    <Button size="sm" variant="outline" className="flex-1" asChild>
+                    <Button size="sm" variant="outline" className="flex-1 border-2 hover:bg-gray-50" asChild>
                       <Link href={`mailto:${instructor.email}`}>
-                        <Mail className="w-4 h-4 mr-1" />
+                        <Mail className="w-4 h-4 mr-2" />
                         문의하기
                       </Link>
                     </Button>
@@ -491,22 +500,31 @@ export default function AboutPage() {
         )}
 
         {/* 하단 CTA */}
-        <div className="mt-12 text-center">
-          <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold mb-4">강사가 되어보세요</h2>
-              <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+        <div className="mt-16 text-center">
+          <Card className="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white overflow-hidden relative">
+            <div className="absolute inset-0 bg-black opacity-10"></div>
+            <CardContent className="p-12 relative z-10">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-white bg-opacity-20 rounded-full mb-6">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <h2 className="text-3xl font-bold mb-4">강사가 되어보세요</h2>
+              <p className="text-blue-100 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
                 전문 지식을 나누고 새로운 기회를 만들어보세요. 강사온스쿨에서 당신의 전문성을 발휘할 수 있습니다.
               </p>
-              <div className="flex gap-4 justify-center">
-                <Button variant="secondary" size="lg" asChild>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  variant="secondary" 
+                  size="lg" 
+                  className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3"
+                  asChild
+                >
                   <Link href="/signup/instructor">
                     강사 등록하기
                   </Link>
                 </Button>
                 <Button 
                   size="lg" 
-                  className="bg-transparent text-white border-2 border-white hover:bg-white hover:text-blue-600 transition-colors" 
+                  className="bg-transparent text-white border-2 border-white hover:bg-white hover:text-blue-600 transition-all duration-200 font-semibold px-8 py-3" 
                   asChild
                 >
                   <Link href="/projects">
