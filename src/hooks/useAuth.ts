@@ -40,6 +40,25 @@ export function useAuth() {
       try {
         debugLog('🔍 Checking session...')
         
+        // 로컬 스토리지에서 세션 데이터 확인
+        if (typeof window !== 'undefined') {
+          const storedSession = localStorage.getItem('speakerlink-auth')
+          console.log('🔍 Local storage session data:', storedSession ? 'exists' : 'not found')
+          
+          if (storedSession) {
+            try {
+              const parsedSession = JSON.parse(storedSession)
+              console.log('🔍 Parsed session data:', {
+                hasAccessToken: !!parsedSession.access_token,
+                hasRefreshToken: !!parsedSession.refresh_token,
+                expiresAt: parsedSession.expires_at ? new Date(parsedSession.expires_at * 1000).toISOString() : 'undefined'
+              })
+            } catch (parseError) {
+              console.error('❌ Failed to parse stored session:', parseError)
+            }
+          }
+        }
+        
         // 현재 세션 가져오기
         const { data: { session }, error } = await supabase.auth.getSession()
         
@@ -60,6 +79,8 @@ export function useAuth() {
         if (session?.user) {
           debugLog('✅ Session found:', session.user.email)
           debugLog('🆔 User ID:', session.user.id)
+          debugLog('🔑 Access token exists:', !!session.access_token)
+          debugLog('🔄 Refresh token exists:', !!session.refresh_token)
           
           if (mountedRef.current) {
             setUser(session.user)
@@ -84,6 +105,51 @@ export function useAuth() {
           }
         } else {
           console.log('❌ No session found')
+          
+          // 세션이 없을 때 로컬 스토리지에서 복구 시도
+          if (typeof window !== 'undefined') {
+            const storedSession = localStorage.getItem('speakerlink-auth')
+            if (storedSession) {
+              try {
+                const parsedSession = JSON.parse(storedSession)
+                if (parsedSession.access_token && parsedSession.refresh_token) {
+                  console.log('🔄 Attempting to recover session from storage...')
+                  
+                  // 토큰 갱신 시도
+                  const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession({
+                    refresh_token: parsedSession.refresh_token
+                  })
+                  
+                  if (refreshError) {
+                    console.error('❌ Session recovery failed:', refreshError)
+                  } else if (refreshData.session?.user) {
+                    console.log('✅ Session recovered successfully:', refreshData.session.user.email)
+                    
+                    if (mountedRef.current) {
+                      setUser(refreshData.session.user)
+                      setEmailVerified(!!refreshData.session.user.email_confirmed_at)
+                      
+                      // 프로필 가져오기
+                      try {
+                        const userProfile = await getProfile(refreshData.session.user.id)
+                        if (mountedRef.current) {
+                          setProfile(userProfile)
+                        }
+                      } catch (profileError) {
+                        console.error('❌ Profile fetch error after recovery:', profileError)
+                        if (mountedRef.current) {
+                          setProfile(null)
+                        }
+                      }
+                    }
+                  }
+                }
+              } catch (parseError) {
+                console.error('❌ Failed to parse stored session for recovery:', parseError)
+              }
+            }
+          }
+          
           if (mountedRef.current) {
             setUser(null)
             setProfile(null)
@@ -112,6 +178,11 @@ export function useAuth() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('🔄 Auth state change:', event, session?.user?.email)
+        console.log('🔄 Session tokens:', {
+          accessToken: !!session?.access_token,
+          refreshToken: !!session?.refresh_token,
+          expiresAt: session?.expires_at
+        })
         
         if (!mountedRef.current) return
 
@@ -151,6 +222,15 @@ export function useAuth() {
           console.log('🔄 Token refreshed:', session.user.email)
           if (mountedRef.current) {
             setUser(session.user)
+            // 토큰 갱신 후 프로필도 다시 가져오기
+            try {
+              const userProfile = await getProfile(session.user.id)
+              if (mountedRef.current) {
+                setProfile(userProfile)
+              }
+            } catch (error) {
+              console.error('❌ Profile fetch error after token refresh:', error)
+            }
           }
         } else if (event === 'INITIAL_SESSION' && session?.user) {
           console.log('🎯 Initial session:', session.user.email)
@@ -175,6 +255,11 @@ export function useAuth() {
             if (mountedRef.current) {
               setProfile(null)
             }
+          }
+        } else if (event === 'USER_UPDATED' && session?.user) {
+          console.log('👤 User updated:', session.user.email)
+          if (mountedRef.current) {
+            setUser(session.user)
           }
         }
       }

@@ -112,13 +112,37 @@ export async function signIn(data: LoginData): Promise<{ success: boolean; error
 
     if (authData.user && authData.session) {
       console.log('signIn successful, user:', authData.user.email)
+      console.log('🔑 Access token length:', authData.session.access_token.length)
+      console.log('🔄 Refresh token length:', authData.session.refresh_token.length)
+      console.log('⏰ Expires at:', authData.session.expires_at ? new Date(authData.session.expires_at * 1000).toISOString() : 'undefined')
       
       // 세션이 제대로 저장되었는지 확인
       const { data: { session } } = await supabase.auth.getSession()
       if (session) {
         console.log('✅ Session confirmed after login')
+        console.log('✅ Stored session access token length:', session.access_token.length)
       } else {
         console.warn('⚠️ Session not found after login')
+      }
+      
+      // 로컬 스토리지 확인 및 강제 저장
+      if (typeof window !== 'undefined') {
+        const storedSession = localStorage.getItem('speakerlink-auth')
+        console.log('🔍 Local storage session exists:', !!storedSession)
+        
+        // 세션이 있지만 로컬 스토리지에 없는 경우 강제 저장
+        if (authData.session && !storedSession) {
+          console.log('🔄 Forcing session to localStorage...')
+          localStorage.setItem('speakerlink-auth', JSON.stringify({
+            access_token: authData.session.access_token,
+            refresh_token: authData.session.refresh_token,
+            expires_at: authData.session.expires_at,
+            expires_in: authData.session.expires_in,
+            token_type: authData.session.token_type,
+            user: authData.session.user
+          }))
+          console.log('✅ Session forced to localStorage')
+        }
       }
       
       return { success: true }

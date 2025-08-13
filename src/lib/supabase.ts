@@ -15,11 +15,12 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     storageKey: 'speakerlink-auth',
-    autoRefreshToken: false, // 자동 토큰 갱신 비활성화
+    autoRefreshToken: true, // 자동 토큰 갱신 활성화
     detectSessionInUrl: false,
     flowType: 'pkce',
     debug: process.env.NODE_ENV === 'development',
-    storage: getStorage()
+    storage: getStorage(),
+    storageKey: 'speakerlink-auth'
   }
 })
 
