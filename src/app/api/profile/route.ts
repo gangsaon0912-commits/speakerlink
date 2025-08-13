@@ -3,18 +3,31 @@ import { createClient } from '@supabase/supabase-js'
 export const dynamic = 'force-dynamic'
 
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+// 환경 변수 안전 처리
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ API: Missing Supabase environment variables')
+}
+
+const supabase = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, supabaseServiceKey, {
   auth: {
     autoRefreshToken: false,
     persistSession: false
   }
-})
+}) : null
 
 export async function GET(request: NextRequest) {
   try {
+    if (!supabase) {
+      console.error('❌ API: Supabase client not initialized')
+      return NextResponse.json(
+        { success: false, error: '서버 설정 오류입니다.' },
+        { status: 500 }
+      )
+    }
+
     console.log('🔍 API: Profile request received')
     
     // Authorization 헤더에서 토큰 추출
