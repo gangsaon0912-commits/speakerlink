@@ -87,21 +87,38 @@ export function useAuth() {
             setEmailVerified(!!session.user.email_confirmed_at)
           }
           
-          // 프로필 가져오기
-          try {
-            console.log('📋 Fetching profile for user:', session.user.id)
-            const userProfile = await getProfile(session.user.id)
-            console.log('📋 Profile fetch result:', userProfile?.full_name || 'null')
-            
-            if (mountedRef.current) {
-              setProfile(userProfile)
-              console.log('✅ Profile set in state:', userProfile?.full_name)
+          // 프로필 가져오기 (재시도 로직 포함)
+          let userProfile = null
+          let retryCount = 0
+          const maxRetries = 3
+          
+          while (retryCount < maxRetries && !userProfile) {
+            try {
+              console.log(`📋 Fetching profile for user (attempt ${retryCount + 1}):`, session.user.id)
+              userProfile = await getProfile(session.user.id)
+              console.log('📋 Profile fetch result:', userProfile?.full_name || 'null')
+              
+              if (userProfile) {
+                break
+              } else {
+                console.log(`⚠️ Profile not found, retrying... (${retryCount + 1}/${maxRetries})`)
+                retryCount++
+                if (retryCount < maxRetries) {
+                  await new Promise(resolve => setTimeout(resolve, 1000)) // 1초 대기
+                }
+              }
+            } catch (profileError) {
+              console.error(`❌ Profile fetch error (attempt ${retryCount + 1}):`, profileError)
+              retryCount++
+              if (retryCount < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, 1000)) // 1초 대기
+              }
             }
-          } catch (profileError) {
-            console.error('❌ Profile fetch error:', profileError)
-            if (mountedRef.current) {
-              setProfile(null)
-            }
+          }
+          
+          if (mountedRef.current) {
+            setProfile(userProfile)
+            console.log('✅ Profile set in state:', userProfile?.full_name)
           }
         } else {
           console.log('❌ No session found')
@@ -129,17 +146,37 @@ export function useAuth() {
                       setUser(refreshData.session.user)
                       setEmailVerified(!!refreshData.session.user.email_confirmed_at)
                       
-                      // 프로필 가져오기
-                      try {
-                        const userProfile = await getProfile(refreshData.session.user.id)
-                        if (mountedRef.current) {
-                          setProfile(userProfile)
+                      // 프로필 가져오기 (재시도 로직 포함)
+                      let userProfile = null
+                      let retryCount = 0
+                      const maxRetries = 3
+                      
+                      while (retryCount < maxRetries && !userProfile) {
+                        try {
+                          console.log(`📋 Fetching profile after recovery (attempt ${retryCount + 1}):`, refreshData.session.user.id)
+                          userProfile = await getProfile(refreshData.session.user.id)
+                          
+                          if (userProfile) {
+                            break
+                          } else {
+                            console.log(`⚠️ Profile not found, retrying... (${retryCount + 1}/${maxRetries})`)
+                            retryCount++
+                            if (retryCount < maxRetries) {
+                              await new Promise(resolve => setTimeout(resolve, 1000)) // 1초 대기
+                            }
+                          }
+                        } catch (profileError) {
+                          console.error(`❌ Profile fetch error after recovery (attempt ${retryCount + 1}):`, profileError)
+                          retryCount++
+                          if (retryCount < maxRetries) {
+                            await new Promise(resolve => setTimeout(resolve, 1000)) // 1초 대기
+                          }
                         }
-                      } catch (profileError) {
-                        console.error('❌ Profile fetch error after recovery:', profileError)
-                        if (mountedRef.current) {
-                          setProfile(null)
-                        }
+                      }
+                      
+                      if (mountedRef.current) {
+                        setProfile(userProfile)
+                        console.log('✅ Profile set in state after recovery:', userProfile?.full_name)
                       }
                     }
                   }
@@ -194,21 +231,38 @@ export function useAuth() {
             setLoading(false)
           }
           
-          // 프로필 가져오기
-          try {
-            console.log('📋 Fetching profile on sign in for user:', session.user.id)
-            const userProfile = await getProfile(session.user.id)
-            console.log('📋 Profile fetch result:', userProfile?.full_name || 'null')
-            
-            if (mountedRef.current) {
-              setProfile(userProfile)
-              console.log('✅ Profile set in state:', userProfile?.full_name)
+          // 프로필 가져오기 (재시도 로직 포함)
+          let userProfile = null
+          let retryCount = 0
+          const maxRetries = 3
+          
+          while (retryCount < maxRetries && !userProfile) {
+            try {
+              console.log(`📋 Fetching profile on sign in (attempt ${retryCount + 1}):`, session.user.id)
+              userProfile = await getProfile(session.user.id)
+              console.log('📋 Profile fetch result:', userProfile?.full_name || 'null')
+              
+              if (userProfile) {
+                break
+              } else {
+                console.log(`⚠️ Profile not found, retrying... (${retryCount + 1}/${maxRetries})`)
+                retryCount++
+                if (retryCount < maxRetries) {
+                  await new Promise(resolve => setTimeout(resolve, 1000)) // 1초 대기
+                }
+              }
+            } catch (profileError) {
+              console.error(`❌ Profile fetch error (attempt ${retryCount + 1}):`, profileError)
+              retryCount++
+              if (retryCount < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, 1000)) // 1초 대기
+              }
             }
-          } catch (profileError) {
-            console.error('❌ Profile fetch error:', profileError)
-            if (mountedRef.current) {
-              setProfile(null)
-            }
+          }
+          
+          if (mountedRef.current) {
+            setProfile(userProfile)
+            console.log('✅ Profile set in state:', userProfile?.full_name)
           }
         } else if (event === 'SIGNED_OUT') {
           console.log('🚪 User signed out')

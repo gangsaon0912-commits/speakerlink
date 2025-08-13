@@ -220,61 +220,28 @@ export async function getProfile(userId: string): Promise<Profile | null> {
   try {
     console.log('🔍 getProfile called with userId:', userId)
     
-    // 현재 세션에서 액세스 토큰 가져오기
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-    
-    if (sessionError) {
-      console.error('❌ getProfile: Session error:', sessionError)
+    // 직접 Supabase에서 프로필 가져오기
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single()
+
+    if (profileError) {
+      console.error('❌ getProfile: Profile fetch error:', profileError)
+      console.error('❌ getProfile: Error code:', profileError.code)
+      console.error('❌ getProfile: Error message:', profileError.message)
       return null
     }
-    
-    if (!session?.access_token) {
-      console.error('❌ getProfile: No access token in session')
-      console.log('🔍 Session data:', session)
+
+    if (!profile) {
+      console.log('⚠️ getProfile: No profile found for user:', userId)
       return null
     }
-    
-    console.log('🔍 getProfile: Access token length:', session.access_token.length)
-    console.log('🔍 getProfile: Access token preview:', session.access_token.substring(0, 20) + '...')
-    
-    // API 라우트를 통해 프로필 가져오기
-    const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3001'
-    const apiUrl = `${origin}/api/profile`
-    console.log('🔍 getProfile: Calling API:', apiUrl)
-    
-    const headers = {
-      'Authorization': `Bearer ${session.access_token}`,
-      'Content-Type': 'application/json'
-    }
-    console.log('🔍 getProfile: Request headers:', headers)
-    
-    const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers
-    })
-    
-    console.log('🔍 getProfile: Response status:', response.status)
-    console.log('🔍 getProfile: Response headers:', Object.fromEntries(response.headers.entries()))
-    
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('❌ getProfile: API response not ok:', response.status, response.statusText)
-      console.error('❌ getProfile: Error response body:', errorText)
-      return null
-    }
-    
-    const result = await response.json()
-    
-    console.log('🔍 getProfile: API response:', result)
-    
-    if (!result.success) {
-      console.error('❌ getProfile: API returned error:', result.error)
-      return null
-    }
-    
-    console.log('✅ getProfile success:', result.data)
-    console.log('✅ getProfile: returning profile with full_name:', result.data.full_name)
-    return result.data
+
+    console.log('✅ getProfile success:', profile)
+    console.log('✅ getProfile: returning profile with full_name:', profile.full_name)
+    return profile
   } catch (error) {
     console.error('❌ getProfile exception:', error)
     console.error('❌ getProfile exception type:', typeof error)
