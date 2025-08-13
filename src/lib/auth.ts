@@ -28,61 +28,55 @@ export async function signUp(data: SignUpData): Promise<{ success: boolean; erro
   try {
     console.log('📧 Starting signup process for:', data.email)
     
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/verify-email`,
-        data: {
-          full_name: data.fullName,
-          user_type: data.userType,
-        }
-      }
+    // API 라우트를 통해 회원가입 처리
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3001'
+    const apiUrl = `${origin}/api/auth/signup`
+    
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+        fullName: data.fullName,
+        userType: data.userType
+      })
     })
-
-    if (authError) {
-      console.error('❌ Signup auth error:', authError)
-      return { success: false, error: { message: authError.message } }
+    
+    const result = await response.json()
+    
+    if (!response.ok) {
+      console.error('❌ Signup API error:', result.error)
+      return { success: false, error: { message: result.error || '회원가입에 실패했습니다.' } }
     }
-
-    if (authData.user) {
-      console.log('✅ User created successfully:', authData.user.email)
-      console.log('📧 Email confirmation sent:', authData.user.email_confirmed_at ? 'Already confirmed' : 'Pending confirmation')
+    
+    if (result.success) {
+      console.log('✅ Signup successful:', result.message)
       
-      // 프로필 생성
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: authData.user.id,
-          email: data.email,
-          full_name: data.fullName,
-          user_type: data.userType,
-          email_verified: false, // 이메일 인증 대기 상태
-        })
-
-      if (profileError) {
-        console.error('❌ Profile creation error:', profileError)
-        return { success: false, error: { message: profileError.message } }
-      }
-
-      console.log('✅ Profile created successfully')
+      // 회원가입 성공 후 자동 로그인
+      const loginResult = await signIn({
+        email: data.email,
+        password: data.password
+      })
       
-      // 이메일 인증이 발송되었는지 확인
-      if (!authData.user.email_confirmed_at) {
-        console.log('📧 Email confirmation email has been sent')
+      if (loginResult.success) {
+        console.log('✅ Auto-login successful after signup')
+        return { success: true }
+      } else {
+        console.log('⚠️ Auto-login failed after signup, but signup was successful')
         return { 
           success: true, 
           error: { 
-            message: '회원가입이 완료되었습니다. 이메일을 확인하여 인증을 완료해주세요.' 
+            message: '회원가입이 완료되었습니다. 로그인해주세요.' 
           } 
         }
       }
-
-      return { success: true }
+    } else {
+      console.error('❌ Signup failed:', result.error)
+      return { success: false, error: { message: result.error || '회원가입에 실패했습니다.' } }
     }
-
-    console.error('❌ Signup failed: no user data')
-    return { success: false, error: { message: '회원가입에 실패했습니다.' } }
   } catch (error) {
     console.error('❌ Signup exception:', error)
     return { success: false, error: { message: '알 수 없는 오류가 발생했습니다.' } }
