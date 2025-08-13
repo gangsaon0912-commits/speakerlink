@@ -2,24 +2,34 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 export const dynamic = 'force-dynamic'
 
+// 환경 변수 안전 처리
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-const supabase = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, supabaseServiceKey, {
-  }) : null
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ API: Missing Supabase environment variables')
+}
 
 const supabase = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, supabaseServiceKey, {
   auth: {
     autoRefreshToken: false,
     persistSession: false
   }
-})
+}) : null
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    if (!supabase) {
+      console.error('❌ API: Supabase client not initialized')
+      return NextResponse.json(
+        { success: false, error: '서버 설정 오류입니다.' },
+        { status: 500 }
+      )
+    }
+
     const { id } = await params
     console.log('📋 API: Fetching instructor profile for user:', id)
     

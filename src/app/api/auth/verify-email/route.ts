@@ -3,13 +3,28 @@ import { createClient } from '@supabase/supabase-js'
 export const dynamic = 'force-dynamic'
 
 
-const supabase = supabaseUrl && supabaseServiceKey ? createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-)
+// 환경 변수 안전 처리
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ API: Missing Supabase environment variables')
+}
+
+const supabase = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, supabaseServiceKey, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false
+  }
+}) : null
 
 export async function POST(request: NextRequest) {
   try {
+    if (!supabase) {
+      console.error('❌ API: Supabase client not initialized')
+      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
+    }
+
     const { email } = await request.json()
 
     if (!email) {
