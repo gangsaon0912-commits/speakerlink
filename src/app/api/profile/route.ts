@@ -29,10 +29,12 @@ export async function GET(request: NextRequest) {
     }
 
     console.log('🔍 API: Profile request received')
+    console.log('🔍 API: Request headers:', Object.fromEntries(request.headers.entries()))
     
     // Authorization 헤더에서 토큰 추출
     const authHeader = request.headers.get('authorization')
     console.log('🔍 API: Auth header present:', !!authHeader)
+    console.log('🔍 API: Auth header value:', authHeader ? authHeader.substring(0, 20) + '...' : 'none')
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       console.error('❌ API: Invalid authorization header')
@@ -44,6 +46,7 @@ export async function GET(request: NextRequest) {
 
     const token = authHeader.substring(7)
     console.log('🔍 API: Token length:', token.length)
+    console.log('🔍 API: Token preview:', token.substring(0, 20) + '...')
     
     // JWT 토큰에서 사용자 ID 추출 (서비스 롤 키 사용)
     try {
@@ -102,7 +105,7 @@ export async function GET(request: NextRequest) {
       console.log('✅ API: Profile data:', profile)
       return NextResponse.json({
         success: true,
-        data: profile
+        profile: profile
       })
       
     } catch (jwtError) {

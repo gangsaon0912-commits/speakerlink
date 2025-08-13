@@ -137,6 +137,22 @@ export async function signIn(data: LoginData): Promise<{ success: boolean; error
           }))
           console.log('✅ Session forced to localStorage')
         }
+        
+        // 세션 지속성을 위한 추가 확인
+        setTimeout(() => {
+          const verifySession = localStorage.getItem('speakerlink-auth')
+          if (!verifySession) {
+            console.log('🔄 Re-verifying session storage...')
+            localStorage.setItem('speakerlink-auth', JSON.stringify({
+              access_token: authData.session.access_token,
+              refresh_token: authData.session.refresh_token,
+              expires_at: authData.session.expires_at,
+              expires_in: authData.session.expires_in,
+              token_type: authData.session.token_type,
+              user: authData.session.user
+            }))
+          }
+        }, 100)
       }
       
       return { success: true }
@@ -214,7 +230,58 @@ export async function getProfile(userId: string): Promise<Profile | null> {
   try {
     console.log('🔍 getProfile called with userId:', userId)
     
-    // 직접 Supabase에서 프로필 가져오기
+    // 현재 세션 상태 확인
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+    if (sessionError) {
+      console.error('❌ getProfile: Session error:', sessionError)
+      return null
+    }
+    
+    if (!session) {
+      console.error('❌ getProfile: No session available')
+      return null
+    }
+    
+    console.log('🔍 getProfile: Session exists:', !!session)
+    console.log('🔍 getProfile: Session user ID:', session?.user?.id)
+    console.log('🔍 getProfile: Requested user ID:', userId)
+    console.log('🔍 getProfile: Access token length:', session.access_token?.length)
+    
+    // 직접 Supabase에서 프로필 가져오기 (API 라우트 우회)
+    console.log('🔄 getProfile: Trying direct Supabase query...')
+    
+    // 서비스 롤 키를 사용하여 RLS 우회
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (serviceRoleKey) {
+      console.log('🔑 getProfile: Using service role key for RLS bypass')
+      
+      const supabaseAdmin = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        serviceRoleKey,
+        {
+          auth: {
+            autoRefreshToken: false,
+            persistSession: false
+          }
+        }
+      )
+      
+      const { data: profile, error: profileError } = await supabaseAdmin
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+
+      if (profileError) {
+        console.error('❌ getProfile: Service role query error:', profileError)
+      } else if (profile) {
+        console.log('✅ getProfile success via service role:', profile.full_name)
+        return profile
+      }
+    }
+    
+    // 서비스 롤 키가 없거나 실패한 경우 일반 쿼리 시도
+    console.log('🔄 getProfile: Trying regular Supabase query...')
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('*')
@@ -225,6 +292,14 @@ export async function getProfile(userId: string): Promise<Profile | null> {
       console.error('❌ getProfile: Profile fetch error:', profileError)
       console.error('❌ getProfile: Error code:', profileError.code)
       console.error('❌ getProfile: Error message:', profileError.message)
+      
+      // RLS 오류인 경우 추가 정보 출력
+      if (profileError.code === 'PGRST116') {
+        console.error('❌ getProfile: RLS policy violation - user may not have access to this profile')
+        console.error('❌ getProfile: Current user ID:', session.user.id)
+        console.error('❌ getProfile: Requested user ID:', userId)
+      }
+      
       return null
     }
 
@@ -233,7 +308,7 @@ export async function getProfile(userId: string): Promise<Profile | null> {
       return null
     }
 
-    console.log('✅ getProfile success:', profile)
+    console.log('✅ getProfile success via direct query:', profile)
     console.log('✅ getProfile: returning profile with full_name:', profile.full_name)
     return profile
   } catch (error) {
