@@ -55,9 +55,7 @@ async function checkStorageStatus() {
       }
 
       console.log('✅ Documents bucket created successfully:', {
-        name: newBucket.name,
-        id: newBucket.id,
-        public: newBucket.public
+        name: newBucket.name
       })
     } else {
       console.log('✅ Documents bucket exists:', {

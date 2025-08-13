@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 
+
 export async function PATCH(request: NextRequest) {
   console.log('🔍 API: Bulk document status update request received')
   

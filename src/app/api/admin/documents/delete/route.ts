@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 
+
 export async function DELETE(request: NextRequest) {
   console.log('🔍 API: Document deletion request received')
   
