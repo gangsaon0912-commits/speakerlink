@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Navigation } from '@/components/layout/navigation'
+import { Footer } from '@/components/layout/footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -483,7 +484,7 @@ export default function AboutPage() {
                     <Button size="sm" className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" asChild>
                       <Link href={`/projects?instructor=${instructor.id}`}>
                         <Eye className="w-4 h-4 mr-2" />
-                        프로젝트 보기
+                        강사공고 보기
                       </Link>
                     </Button>
                     <Button size="sm" variant="outline" className="flex-1 border-2 hover:bg-gray-50" asChild>
@@ -528,7 +529,7 @@ export default function AboutPage() {
                   asChild
                 >
                   <Link href="/projects">
-                    프로젝트 둘러보기
+                    강사공고 둘러보기
                   </Link>
                 </Button>
               </div>
@@ -536,6 +537,7 @@ export default function AboutPage() {
           </Card>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

@@ -733,13 +733,24 @@ export default function AdminInstructorsPage() {
                       </Button>
                     </>
                   ) : (
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={handleEditMode}
-                    >
-                      편집
-                    </Button>
+                    <>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={handleEditMode}
+                      >
+                        편집
+                      </Button>
+                      <Button 
+                        variant="destructive" 
+                        size="sm"
+                        onClick={() => handleDeleteInstructor(selectedInstructor)}
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                      >
+                        <XCircle className="h-4 w-4 mr-1" />
+                        삭제
+                      </Button>
+                    </>
                   )}
                   <Button 
                     variant="ghost" 
@@ -897,44 +908,49 @@ export default function AdminInstructorsPage() {
               </Card>
 
               {/* 관리 액션 */}
-              <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
-                {!isEditMode && selectedInstructor.status === 'pending' && (
-                  <>
-                    <Button 
-                      variant="outline" 
-                      onClick={() => {
-                        handleStatusChange(selectedInstructor.id, 'approved')
-                        handleCloseModal()
-                      }}
-                      className="text-green-600 border-green-600 hover:bg-green-50"
-                    >
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      승인
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      onClick={() => {
-                        handleStatusChange(selectedInstructor.id, 'rejected')
-                        handleCloseModal()
-                      }}
-                      className="text-red-600 border-red-600 hover:bg-red-50"
-                    >
-                      <XCircle className="h-4 w-4 mr-2" />
-                      거부
-                    </Button>
-                  </>
-                )}
-                <Button 
-                  variant="destructive" 
-                  onClick={() => handleDeleteInstructor(selectedInstructor)}
-                  className="text-red-600 border-red-600 hover:bg-red-50"
-                >
-                  <XCircle className="h-4 w-4 mr-2" />
-                  삭제
-                </Button>
-                <Button variant="outline" onClick={handleCloseModal}>
-                  닫기
-                </Button>
+              <div className="flex justify-between items-center pt-6 border-t border-gray-200">
+                <div className="text-sm text-gray-500">
+                  강사 ID: {selectedInstructor.id}
+                </div>
+                <div className="flex gap-3">
+                  {!isEditMode && selectedInstructor.status === 'pending' && (
+                    <>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          handleStatusChange(selectedInstructor.id, 'approved')
+                          handleCloseModal()
+                        }}
+                        className="text-green-600 border-green-600 hover:bg-green-50"
+                      >
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                        승인
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          handleStatusChange(selectedInstructor.id, 'rejected')
+                          handleCloseModal()
+                        }}
+                        className="text-red-600 border-red-600 hover:bg-red-50"
+                      >
+                        <XCircle className="h-4 w-4 mr-2" />
+                        거부
+                      </Button>
+                    </>
+                  )}
+                  <Button 
+                    variant="destructive" 
+                    onClick={() => handleDeleteInstructor(selectedInstructor)}
+                    className="bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    <XCircle className="h-4 w-4 mr-2" />
+                    삭제
+                  </Button>
+                  <Button variant="outline" onClick={handleCloseModal}>
+                    닫기
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

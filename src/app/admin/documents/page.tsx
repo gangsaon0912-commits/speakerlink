@@ -421,17 +421,17 @@ export default function AdminDocumentsPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
                   <Input
                     placeholder="문서명, 사용자명, 이메일로 검색..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
               </div>
               <Select value={statusFilter} onValueChange={(value: Document['status'] | 'all') => setStatusFilter(value)}>
-                <SelectTrigger className="w-full sm:w-48">
+                <SelectTrigger className="w-full sm:w-48 border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                   <SelectValue placeholder="상태별 필터" />
                 </SelectTrigger>
                 <SelectContent>
@@ -494,22 +494,22 @@ export default function AdminDocumentsPage() {
               <div className="space-y-4">
                 {/* 전체 선택 헤더 */}
                 {filteredDocuments.length > 0 && (
-                  <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                     <button
                       onClick={selectAllDocuments}
-                      className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800"
+                      className="flex items-center gap-2 text-sm text-blue-700 hover:text-blue-900 font-medium"
                     >
                       {selectedDocuments.size === filteredDocuments.filter(doc => doc.status === 'pending').length ? (
-                        <CheckSquare className="w-4 h-4" />
+                        <CheckSquare className="w-5 h-5 text-blue-600" />
                       ) : (
-                        <Square className="w-4 h-4" />
+                        <Square className="w-5 h-5 text-blue-500" />
                       )}
                       검토중인 문서 전체 선택
                     </button>
                     {selectedDocuments.size > 0 && (
                       <button
                         onClick={clearSelection}
-                        className="text-sm text-red-600 hover:text-red-800"
+                        className="text-sm text-red-600 hover:text-red-800 font-medium"
                       >
                         선택 해제
                       </button>

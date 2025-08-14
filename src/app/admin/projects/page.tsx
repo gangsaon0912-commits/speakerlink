@@ -248,11 +248,11 @@ export default function AdminProjectsPage() {
       </div>
 
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">프로젝트 관리</h1>
+                    <h1 className="text-3xl font-bold">강사공고 관리</h1>
         <Link href="/admin/projects/create">
           <Button className="flex items-center gap-2">
             <Plus className="w-4 h-4" />
-            새 프로젝트
+                          새 강사공고
           </Button>
         </Link>
       </div>
@@ -263,7 +263,7 @@ export default function AdminProjectsPage() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input
-              placeholder="프로젝트 검색..."
+              placeholder="강사공고 검색..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -289,7 +289,7 @@ export default function AdminProjectsPage() {
         {filteredProjects.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">
-              <p className="text-gray-500">프로젝트가 없습니다.</p>
+              <p className="text-gray-500">강사공고가 없습니다.</p>
             </CardContent>
           </Card>
         ) : (
@@ -361,7 +361,7 @@ export default function AdminProjectsPage() {
       <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>프로젝트 상세보기</DialogTitle>
+            <DialogTitle>강사공고 상세보기</DialogTitle>
           </DialogHeader>
           {selectedProject && (
             <div className="space-y-4">

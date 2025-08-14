@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/layout/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { getDashboardStats } from '@/lib/auth'
+import { useDocumentStats } from '@/lib/hooks/useDocuments'
 import { Users, Building2, FileText, AlertCircle, CheckCircle, Upload, Bell, Shield } from 'lucide-react'
 import Link from 'next/link'
 import { RecentActivity } from '@/components/RecentActivity'
@@ -36,6 +37,9 @@ export default function AdminDashboard() {
     rejectedDocuments: 0
   })
   const [statsLoading, setStatsLoading] = useState(true)
+  
+  // 문서 통계를 별도로 가져오기
+  const { data: documentStats } = useDocumentStats()
 
   // 관리자 권한 확인
   const isAdmin = profile?.user_type === 'admin' || user?.email === 'admin@test.com'
@@ -47,8 +51,18 @@ export default function AdminDashboard() {
         try {
           console.log('📊 Fetching dashboard stats...')
           const dashboardStats = await getDashboardStats()
-          setStats(dashboardStats)
-          console.log('✅ Dashboard stats loaded:', dashboardStats)
+          
+          // 문서 통계를 API에서 가져온 데이터로 교체
+          const updatedStats = {
+            ...dashboardStats,
+            totalDocuments: documentStats?.total || 0,
+            pendingDocuments: documentStats?.pending || 0,
+            approvedDocuments: documentStats?.approved || 0,
+            rejectedDocuments: documentStats?.rejected || 0
+          }
+          
+          setStats(updatedStats)
+          console.log('✅ Dashboard stats loaded:', updatedStats)
         } catch (error) {
           console.error('❌ Error loading dashboard stats:', error)
         } finally {
@@ -58,7 +72,7 @@ export default function AdminDashboard() {
     }
 
     fetchStats()
-  }, [isAdmin])
+  }, [isAdmin, documentStats])
 
   // 디버깅 정보
   console.log('Admin Dashboard State:', {
@@ -82,7 +96,7 @@ export default function AdminDashboard() {
   // 로딩 중이면 로딩 화면 표시
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -97,7 +111,7 @@ export default function AdminDashboard() {
   // 로그인하지 않은 경우 리다이렉트 중 화면 표시
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <div className="text-center">
@@ -112,7 +126,7 @@ export default function AdminDashboard() {
   // 관리자가 아닌 경우 접근 제한
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
           <Card className="w-full max-w-md">
@@ -135,320 +149,390 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 text-gray-900 mb-2">
+        {/* 헤더 섹션 */}
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">
             관리자 대시보드
           </h1>
-          <p className="text-gray-600 text-gray-600">
-            강사온스쿨 플랫폼 관리 및 모니터링
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            강사온스쿨 플랫폼의 전체 현황을 한눈에 확인하고 관리하세요
           </p>
         </div>
 
-        {/* 통계 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">총 강사 수</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {statsLoading ? (
-                  <div className="animate-pulse bg-gray-200 h-8 w-16 rounded"></div>
-                ) : (
-                  stats.totalInstructors
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {statsLoading ? '로딩 중...' : `+${stats.recentInstructors} from last month`}
-              </p>
-            </CardContent>
-          </Card>
+        {/* 통계 카드 섹션 */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">
+            플랫폼 현황
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-3">
+                <div className="flex justify-center mb-2">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <Users className="h-5 w-5 text-blue-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-sm font-medium text-gray-700">총 강사 수</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-gray-900 mb-2">
+                  {statsLoading ? (
+                    <div className="animate-pulse bg-gray-200 h-8 w-16 rounded mx-auto"></div>
+                  ) : (
+                    stats.totalInstructors
+                  )}
+                </div>
+                <p className="text-xs text-gray-500">
+                  {statsLoading ? '로딩 중...' : `최근 ${stats.recentInstructors}명 추가`}
+                </p>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">총 기업 수</CardTitle>
-              <Building2 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {statsLoading ? (
-                  <div className="animate-pulse bg-gray-200 h-8 w-16 rounded"></div>
-                ) : (
-                  stats.totalCompanies
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {statsLoading ? '로딩 중...' : `+${stats.recentCompanies} from last month`}
-              </p>
-            </CardContent>
-          </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-3">
+                <div className="flex justify-center mb-2">
+                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                    <Building2 className="h-5 w-5 text-green-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-sm font-medium text-gray-700">총 기업 수</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-gray-900 mb-2">
+                  {statsLoading ? (
+                    <div className="animate-pulse bg-gray-200 h-8 w-16 rounded mx-auto"></div>
+                  ) : (
+                    stats.totalCompanies
+                  )}
+                </div>
+                <p className="text-xs text-gray-500">
+                  {statsLoading ? '로딩 중...' : `최근 ${stats.recentCompanies}개사 추가`}
+                </p>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">총 프로필</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {statsLoading ? (
-                  <div className="animate-pulse bg-gray-200 h-8 w-16 rounded"></div>
-                ) : (
-                  stats.totalProfiles
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {statsLoading ? '로딩 중...' : '전체 사용자 프로필'}
-              </p>
-            </CardContent>
-          </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-3">
+                <div className="flex justify-center mb-2">
+                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                    <FileText className="h-5 w-5 text-purple-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-sm font-medium text-gray-700">총 프로필</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-gray-900 mb-2">
+                  {statsLoading ? (
+                    <div className="animate-pulse bg-gray-200 h-8 w-16 rounded mx-auto"></div>
+                  ) : (
+                    stats.totalProfiles
+                  )}
+                </div>
+                <p className="text-xs text-gray-500">
+                  {statsLoading ? '로딩 중...' : '전체 사용자 프로필'}
+                </p>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">대기 중인 검증</CardTitle>
-              <AlertCircle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {statsLoading ? (
-                  <div className="animate-pulse bg-gray-200 h-8 w-16 rounded"></div>
-                ) : (
-                  stats.pendingVerifications
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {statsLoading ? '로딩 중...' : '검토 필요'}
-              </p>
-            </CardContent>
-          </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-3">
+                <div className="flex justify-center mb-2">
+                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                    <AlertCircle className="h-5 w-5 text-orange-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-sm font-medium text-gray-700">대기 중인 검증</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-gray-900 mb-2">
+                  {statsLoading ? (
+                    <div className="animate-pulse bg-gray-200 h-8 w-16 rounded mx-auto"></div>
+                  ) : (
+                    stats.pendingVerifications
+                  )}
+                </div>
+                <p className="text-xs text-gray-500">
+                  {statsLoading ? '로딩 중...' : '검토 필요'}
+                </p>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">승인된 검증</CardTitle>
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {statsLoading ? (
-                  <div className="animate-pulse bg-gray-200 h-8 w-16 rounded"></div>
-                ) : (
-                  stats.approvedVerifications
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {statsLoading ? '로딩 중...' : `총 ${stats.totalVerifications}개 중`}
-              </p>
-            </CardContent>
-          </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-3">
+                <div className="flex justify-center mb-2">
+                  <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                    <CheckCircle className="h-5 w-5 text-emerald-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-sm font-medium text-gray-700">승인된 검증</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-gray-900 mb-2">
+                  {statsLoading ? (
+                    <div className="animate-pulse bg-gray-200 h-8 w-16 rounded mx-auto"></div>
+                  ) : (
+                    stats.approvedVerifications
+                  )}
+                </div>
+                <p className="text-xs text-gray-500">
+                  {statsLoading ? '로딩 중...' : `총 ${stats.totalVerifications}개 중`}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
-        {/* 관리 기능 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="w-5 h-5" />
-                강사 관리
-              </CardTitle>
-              <CardDescription>
-                등록된 강사들을 관리하고 검토합니다.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>승인 대기</span>
-                <Badge variant="secondary">
-                  {statsLoading ? '...' : stats.pendingVerifications}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>활성 강사</span>
-                <Badge variant="default">
-                  {statsLoading ? '...' : stats.totalInstructors}
-                </Badge>
-              </div>
-              <Link href="/admin/instructors">
-                <Button className="w-full" variant="outline">
-                  강사 관리하기
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+        {/* 관리 기능 섹션 */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">
+            관리 기능
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader className="text-center pb-4">
+                <div className="flex justify-center mb-3">
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <Users className="h-6 w-6 text-blue-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-lg font-semibold">강사 관리</CardTitle>
+                <CardDescription className="text-center">
+                  등록된 강사들을 관리하고 검토합니다
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">승인 대기</span>
+                    <Badge variant="secondary" className="font-semibold">
+                      {statsLoading ? '...' : stats.pendingVerifications}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">활성 강사</span>
+                    <Badge variant="default" className="font-semibold">
+                      {statsLoading ? '...' : stats.totalInstructors}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <Link href="/admin/instructors">
+                    <Button className="w-full" variant="outline">
+                      강사 관리하기
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="w-5 h-5" />
-                프로필 검증
-              </CardTitle>
-              <CardDescription>
-                강사 및 기업 프로필 검증 요청을 관리합니다.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>대기중</span>
-                <Badge variant="secondary">
-                  {statsLoading ? '...' : stats.pendingVerifications}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>승인됨</span>
-                <Badge variant="default">
-                  {statsLoading ? '...' : stats.approvedVerifications}
-                </Badge>
-              </div>
-              <Link href="/admin/verification">
-                <Button className="w-full" variant="outline">
-                  검증 관리하기
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader className="text-center pb-4">
+                <div className="flex justify-center mb-3">
+                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                    <Shield className="h-6 w-6 text-purple-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-lg font-semibold">프로필 검증</CardTitle>
+                <CardDescription className="text-center">
+                  강사 및 기업 프로필 검증 요청을 관리합니다
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">대기중</span>
+                    <Badge variant="secondary" className="font-semibold">
+                      {statsLoading ? '...' : stats.pendingVerifications}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">승인됨</span>
+                    <Badge variant="default" className="font-semibold">
+                      {statsLoading ? '...' : stats.approvedVerifications}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <Link href="/admin/verification">
+                    <Button className="w-full" variant="outline">
+                      검증 관리하기
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Building2 className="w-5 h-5" />
-                기업 관리
-              </CardTitle>
-              <CardDescription>
-                등록된 기업들을 관리하고 검토합니다.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>승인 대기</span>
-                <Badge variant="secondary">
-                  {statsLoading ? '...' : '0'}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>활성 기업</span>
-                <Badge variant="default">
-                  {statsLoading ? '...' : stats.totalCompanies}
-                </Badge>
-              </div>
-              <Link href="/admin/companies">
-                <Button className="w-full" variant="outline">
-                  기업 관리하기
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader className="text-center pb-4">
+                <div className="flex justify-center mb-3">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <Building2 className="h-6 w-6 text-green-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-lg font-semibold">기업 관리</CardTitle>
+                <CardDescription className="text-center">
+                  등록된 기업들을 관리하고 검토합니다
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">승인 대기</span>
+                    <Badge variant="secondary" className="font-semibold">
+                      {statsLoading ? '...' : '0'}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">활성 기업</span>
+                    <Badge variant="default" className="font-semibold">
+                      {statsLoading ? '...' : stats.totalCompanies}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <Link href="/admin/companies">
+                    <Button className="w-full" variant="outline">
+                      기업 관리하기
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                프로젝트 관리
-              </CardTitle>
-              <CardDescription>
-                진행 중인 프로젝트들을 관리합니다.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>진행 중</span>
-                <Badge variant="default">
-                  {statsLoading ? '...' : stats.inProgressProjects}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>완료됨</span>
-                <Badge variant="secondary">
-                  {statsLoading ? '...' : stats.completedProjects}
-                </Badge>
-              </div>
-              <Link href="/admin/projects">
-                <Button className="w-full" variant="outline">
-                  프로젝트 관리하기
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader className="text-center pb-4">
+                <div className="flex justify-center mb-3">
+                  <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <FileText className="h-6 w-6 text-indigo-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-lg font-semibold">강사공고 관리</CardTitle>
+                <CardDescription className="text-center">
+                  진행 중인 강사공고들을 관리합니다
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">진행 중</span>
+                    <Badge variant="default" className="font-semibold">
+                      {statsLoading ? '...' : stats.inProgressProjects}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">완료됨</span>
+                    <Badge variant="secondary" className="font-semibold">
+                      {statsLoading ? '...' : stats.completedProjects}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <Link href="/admin/projects">
+                    <Button className="w-full" variant="outline">
+                      강사공고 관리하기
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="w-5 h-5" />
-                문서 검토
-              </CardTitle>
-              <CardDescription>
-                업로드된 문서들을 검토하고 승인/거부를 관리합니다.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>검토 대기</span>
-                <Badge variant="secondary">
-                  {statsLoading ? '...' : stats.pendingDocuments}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>승인됨</span>
-                <Badge variant="default">
-                  {statsLoading ? '...' : stats.approvedDocuments}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>거부됨</span>
-                <Badge variant="destructive">
-                  {statsLoading ? '...' : stats.rejectedDocuments}
-                </Badge>
-              </div>
-              <Link href="/admin/documents">
-                <Button className="w-full" variant="outline">
-                  문서 검토하기
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader className="text-center pb-4">
+                <div className="flex justify-center mb-3">
+                  <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                    <Upload className="h-6 w-6 text-orange-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-lg font-semibold">문서 검토</CardTitle>
+                <CardDescription className="text-center">
+                  업로드된 문서들을 검토하고 승인/거부를 관리합니다
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">검토 대기</span>
+                    <Badge variant="secondary" className="font-semibold">
+                      {statsLoading ? '...' : stats.pendingDocuments}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">승인됨</span>
+                    <Badge variant="default" className="font-semibold">
+                      {statsLoading ? '...' : stats.approvedDocuments}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">거부됨</span>
+                    <Badge variant="destructive" className="font-semibold">
+                      {statsLoading ? '...' : stats.rejectedDocuments}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <Link href="/admin/documents">
+                    <Button className="w-full" variant="outline">
+                      문서 검토하기
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Bell className="w-5 h-5" />
-                공지사항 관리
-              </CardTitle>
-              <CardDescription>
-                공지사항을 작성하고 관리합니다.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>전체 공지사항</span>
-                <Badge variant="secondary">
-                  {statsLoading ? '...' : stats.totalAnnouncements}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>발행됨</span>
-                <Badge variant="default">
-                  {statsLoading ? '...' : stats.publishedAnnouncements}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>임시저장</span>
-                <Badge variant="outline">
-                  {statsLoading ? '...' : stats.draftAnnouncements}
-                </Badge>
-              </div>
-              <Link href="/admin/announcements">
-                <Button className="w-full" variant="outline">
-                  공지사항 관리하기
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader className="text-center pb-4">
+                <div className="flex justify-center mb-3">
+                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                    <Bell className="h-6 w-6 text-red-600" />
+                  </div>
+                </div>
+                <CardTitle className="text-lg font-semibold">공지사항 관리</CardTitle>
+                <CardDescription className="text-center">
+                  공지사항을 작성하고 관리합니다
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">전체 공지사항</span>
+                    <Badge variant="secondary" className="font-semibold">
+                      {statsLoading ? '...' : stats.totalAnnouncements}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">발행됨</span>
+                    <Badge variant="default" className="font-semibold">
+                      {statsLoading ? '...' : stats.publishedAnnouncements}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">임시저장</span>
+                    <Badge variant="outline" className="font-semibold">
+                      {statsLoading ? '...' : stats.draftAnnouncements}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <Link href="/admin/announcements">
+                    <Button className="w-full" variant="outline">
+                      공지사항 관리하기
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
-        {/* 최근 활동 */}
-        <div className="mt-8">
+        {/* 최근 활동 섹션 */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">
+            최근 활동
+          </h2>
           <RecentActivity />
         </div>
       </div>

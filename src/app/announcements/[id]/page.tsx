@@ -157,9 +157,7 @@ export default function AnnouncementDetailPage() {
 
         <div className="space-y-6">
           {/* 공지사항 헤더 */}
-          <Card className={`${
-            announcement.is_pinned ? 'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950' : ''
-          }`}>
+          <Card className="bg-white">
             <CardHeader>
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-2">

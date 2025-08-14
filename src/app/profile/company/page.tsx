@@ -329,7 +329,7 @@ export default function CompanyProfilePage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>프로젝트 현황</CardTitle>
+                <CardTitle>강사공고 현황</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
@@ -338,7 +338,7 @@ export default function CompanyProfilePage() {
                       {profile.projects}
                     </div>
                     <div className="text-sm text-gray-600 text-gray-500">
-                      총 프로젝트
+                      총 강사공고
                     </div>
                   </div>
                   <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
@@ -346,7 +346,7 @@ export default function CompanyProfilePage() {
                       {profile.completedProjects}
                     </div>
                     <div className="text-sm text-gray-600 text-gray-500">
-                      완료된 프로젝트
+                      완료된 강사공고
                     </div>
                   </div>
                 </div>

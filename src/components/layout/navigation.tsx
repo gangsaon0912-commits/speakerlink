@@ -3,8 +3,9 @@
 import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Users, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
+import { LogoWithText, LogoCompact } from '@/components/ui/logo'
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -57,23 +58,36 @@ export function Navigation() {
     }
   }, [logout, isLoggingOut])
 
-  const menuItems = [
-    { href: '/projects', label: '프로젝트' },
-    { href: '/announcements', label: '공지사항' },
-    { href: '/documents', label: '문서 관리' },
-    { href: '/about', label: '소개' },
-  ]
+  // 로그인 상태에 따른 메뉴 아이템
+  const getMenuItems = () => {
+    const baseItems = [
+      { href: '/projects', label: '강사공고' },
+      { href: '/announcements', label: '공지사항' },
+      { href: '/about', label: '소개' },
+    ]
+    
+    // 로그인한 사용자에게만 문서 관리 메뉴 표시
+    if (isAuthenticated) {
+      baseItems.splice(2, 0, { href: '/documents', label: '문서 관리' })
+    }
+    
+    return baseItems
+  }
+
+  const menuItems = getMenuItems()
 
   return (
             <nav className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-white" />
+          <Link href="/" className="flex items-center">
+            <div className="hidden md:block">
+              <LogoWithText size="md" />
             </div>
-                          <span className="text-xl font-bold text-gray-900">강사온스쿨</span>
+            <div className="md:hidden">
+              <LogoCompact size="sm" />
+            </div>
           </Link>
 
           {/* Desktop Menu */}

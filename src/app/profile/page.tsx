@@ -30,7 +30,7 @@ import {
 import Link from 'next/link'
 
 // 진행률 계산 함수
-const calculateProfileProgress = (profile: any, userType: string, instructorProfile?: any, companyProfile?: any) => {
+const calculateProfileProgress = (profile: any, userType: string, instructorProfile?: any, companyProfile?: any, user?: any) => {
   if (!profile) return { basic: 0, detailed: 0, verification: 0 }
 
   let basicScore = 0
@@ -38,10 +38,11 @@ const calculateProfileProgress = (profile: any, userType: string, instructorProf
   let verificationScore = 0
 
   // 기본 정보 점수 - 실제 데이터 기반
-  if (profile.email) basicScore += 30
-  if (profile.full_name) basicScore += 30
+  if (profile.email) basicScore += 25
+  if (profile.full_name) basicScore += 25
   if (profile.user_type) basicScore += 20
-  if (profile.avatar_url) basicScore += 20
+  if (profile.avatar_url) basicScore += 15
+  if (user?.email_confirmed_at) basicScore += 15 // 이메일 인증 추가
 
   // 상세 정보 점수
   if (userType === 'instructor' && instructorProfile) {
@@ -277,7 +278,7 @@ export default function ProfileDashboardPage() {
   }
 
   // 진행률 계산
-  const progress = calculateProfileProgress(profile, userType || '', instructorProfile, companyProfile)
+  const progress = calculateProfileProgress(profile, userType || '', instructorProfile, companyProfile, user)
 
   // 로딩 중이면 로딩 화면 표시
   if (loading) {
@@ -530,25 +531,46 @@ export default function ProfileDashboardPage() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-4 h-4 text-gray-500" />
-                    <div>
-                      <p className="text-sm text-gray-500">이메일 인증</p>
-                      <p className="font-medium">
-                        {user?.email_confirmed_at ? (
-                          <span className="text-green-600 flex items-center gap-1">
-                            <CheckCircle className="w-4 h-4" />
-                            완료
-                          </span>
-                        ) : (
-                          <span className="text-red-600 flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            대기중
-                          </span>
-                        )}
-                      </p>
+                </div>
+
+                {/* 이메일 인증 상태 섹션 */}
+                <div className="border-t pt-6">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-4 h-4 rounded-full ${user?.email_confirmed_at ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                      <div>
+                        <p className="font-medium text-gray-900">이메일 인증</p>
+                        <p className="text-sm text-gray-500">
+                          {user?.email_confirmed_at ? '이메일이 성공적으로 인증되었습니다.' : '이메일 인증이 필요합니다.'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {user?.email_confirmed_at ? (
+                        <span className="text-green-600 flex items-center gap-1 font-medium">
+                          <CheckCircle className="w-4 h-4" />
+                          완료
+                        </span>
+                      ) : (
+                        <span className="text-red-600 flex items-center gap-1 font-medium">
+                          <Clock className="w-4 h-4" />
+                          대기중
+                        </span>
+                      )}
                     </div>
                   </div>
+                  {!user?.email_confirmed_at && (
+                    <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                      <p className="text-sm text-blue-800 mb-2">
+                        이메일 인증이 완료되지 않았습니다. 이메일을 확인하여 인증을 완료해주세요.
+                      </p>
+                      <Link href="/auth/verify-email">
+                        <Button size="sm" variant="outline" className="text-blue-600 border-blue-300 hover:bg-blue-100">
+                          이메일 재전송
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -720,3 +742,4 @@ export default function ProfileDashboardPage() {
     </div>
   )
 }
+

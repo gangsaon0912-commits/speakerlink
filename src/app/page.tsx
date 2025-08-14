@@ -5,7 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Users, Building2, Star, Zap, Shield, Target } from "lucide-react";
 import { Navigation } from "@/components/layout/navigation";
+import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/useAuth";
+import { LogoWithText } from "@/components/ui/logo";
 import Link from "next/link";
 
 export default function Home() {
@@ -45,6 +47,9 @@ export default function Home() {
               </p>
             </div>
           )}
+          <div className="mb-8 flex justify-center">
+            <LogoWithText size="lg" />
+          </div>
           <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
             AI 기반 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">강사 매칭</span> 플랫폼
           </h1>
@@ -57,7 +62,7 @@ export default function Home() {
               <>
                 <Link href="/projects">
                   <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                    프로젝트 보기
+                    강사공고 보기
                   </Button>
                 </Link>
                 <Link href="/profile">
@@ -75,7 +80,7 @@ export default function Home() {
                 </Link>
                 <Link href="/signup">
                   <Button size="lg" variant="outline">
-                    프로젝트 찾기
+                    강사공고 찾기
                   </Button>
                 </Link>
               </>
@@ -169,7 +174,7 @@ export default function Home() {
                 </Link>
                 <Link href="/projects">
                   <Button size="lg" variant="outline">
-                    프로젝트 탐색
+                    강사공고 탐색
                   </Button>
                 </Link>
               </>
@@ -191,54 +196,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Users className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold">강사온스쿨</span>
-              </div>
-              <p className="text-gray-400">
-                강사와 기업을 연결하는 AI 기반 매칭 플랫폼
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">서비스</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>강사 등록</li>
-                <li>프로젝트 찾기</li>
-                <li>매칭 서비스</li>
-                <li>결제 시스템</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">회사</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>소개</li>
-                <li>팀</li>
-                <li>채용</li>
-                <li>뉴스</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">지원</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>고객센터</li>
-                <li>문의하기</li>
-                <li>FAQ</li>
-                <li>이용약관</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 강사온스쿨. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

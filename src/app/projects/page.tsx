@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/layout/navigation'
+import { Footer } from '@/components/layout/footer'
 import { Pagination } from '@/components/ui/pagination'
 import { useAuthStore } from '@/lib/store'
 import { 
@@ -382,6 +383,7 @@ export default function ProjectsPage() {
           </Card>
         )}
       </div>
+      <Footer />
     </div>
   )
 }

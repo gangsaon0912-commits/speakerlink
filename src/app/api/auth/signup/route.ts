@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email: email,
       password: password,
-      email_confirm: true, // 이메일 자동 확인
+      email_confirm: false, // 이메일 확인 필요
       user_metadata: {
         full_name: fullName,
         user_type: userType,
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
         email: email,
         full_name: fullName,
         user_type: userType,
-        email_verified: true, // 관리자가 생성한 사용자는 이메일 확인됨
+        email_verified: false, // 이메일 확인 필요
         is_verified: false, // 기본적으로 미인증 상태
       })
 

@@ -19,7 +19,7 @@ port = 54322
 # Port used by db diff command to initialize the shadow database.
 shadow_port = 54320
 # The database major version to use. This has to be the same as your remote database's. Run `SHOW server_version;` on the remote database to check.
-major_version = 15
+major_version = 15ㅔ
 
 [db.pooler]
 # Port to use for the local connection pooler.
@@ -74,7 +74,18 @@ double_confirm_changes = true
 # If enabled, users need to confirm their email address before signing in.
 enable_confirmations = true
 # Email template for confirmation
-template = "이메일 인증을 완료하려면 다음 링크를 클릭하세요: {{ .ConfirmationURL }}"
+template = """
+안녕하세요!
+
+강사온스쿨 회원가입을 완료하려면 아래 링크를 클릭하여 이메일을 인증해주세요.
+
+{{ .ConfirmationURL }}
+
+이 링크는 24시간 동안 유효합니다.
+
+감사합니다.
+강사온스쿨 팀
+"""
 
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.

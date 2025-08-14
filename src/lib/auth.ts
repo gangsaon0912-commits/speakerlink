@@ -55,23 +55,12 @@ export async function signUp(data: SignUpData): Promise<{ success: boolean; erro
     if (result.success) {
       console.log('✅ Signup successful:', result.message)
       
-      // 회원가입 성공 후 자동 로그인
-      const loginResult = await signIn({
-        email: data.email,
-        password: data.password
-      })
-      
-      if (loginResult.success) {
-        console.log('✅ Auto-login successful after signup')
-        return { success: true }
-      } else {
-        console.log('⚠️ Auto-login failed after signup, but signup was successful')
-        return { 
-          success: true, 
-          error: { 
-            message: '회원가입이 완료되었습니다. 로그인해주세요.' 
-          } 
-        }
+      // 이메일 확인이 필요한 경우 자동 로그인 시도하지 않음
+      return { 
+        success: true, 
+        error: { 
+          message: '회원가입이 완료되었습니다. 이메일을 확인해주세요.' 
+        } 
       }
     } else {
       console.error('❌ Signup failed:', result.error)

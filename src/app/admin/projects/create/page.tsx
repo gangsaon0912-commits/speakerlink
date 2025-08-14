@@ -182,8 +182,8 @@ export default function CreateProjectPage() {
             뒤로가기
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">새 프로젝트 생성</h1>
-            <p className="text-gray-600">새로운 프로젝트를 등록합니다.</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">새 강사공고 생성</h1>
+            <p className="text-gray-600">새로운 강사공고를 등록합니다.</p>
           </div>
         </div>
 
@@ -192,10 +192,10 @@ export default function CreateProjectPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Plus className="w-5 h-5" />
-                프로젝트 정보
+                강사공고 정보
               </CardTitle>
               <CardDescription>
-                프로젝트의 기본 정보를 입력해주세요.
+                강사공고의 기본 정보를 입력해주세요.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -208,26 +208,26 @@ export default function CreateProjectPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* 프로젝트 제목 */}
                 <div className="space-y-2">
-                  <Label htmlFor="title">프로젝트 제목 *</Label>
+                  <Label htmlFor="title">강사공고 제목 *</Label>
                   <Input
                     id="title"
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    placeholder="예: 웹 개발 프로젝트"
+                    placeholder="예: 웹 개발 강사 모집"
                     required
                   />
                 </div>
 
                 {/* 프로젝트 설명 */}
                 <div className="space-y-2">
-                  <Label htmlFor="description">프로젝트 설명 *</Label>
+                  <Label htmlFor="description">강사공고 설명 *</Label>
                   <Textarea
                     id="description"
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
-                    placeholder="프로젝트에 대한 자세한 설명을 입력해주세요."
+                    placeholder="강사공고에 대한 자세한 설명을 입력해주세요."
                     rows={4}
                     required
                   />
@@ -276,7 +276,7 @@ export default function CreateProjectPage() {
 
                 {/* 기간 */}
                 <div className="space-y-2">
-                  <Label htmlFor="duration">프로젝트 기간</Label>
+                  <Label htmlFor="duration">강사공고 기간</Label>
                   <div className="relative">
                     <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                     <Input
@@ -292,7 +292,7 @@ export default function CreateProjectPage() {
 
                 {/* 위치 */}
                 <div className="space-y-2">
-                  <Label htmlFor="location">프로젝트 위치</Label>
+                  <Label htmlFor="location">강사공고 위치</Label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                     <Input
@@ -308,7 +308,7 @@ export default function CreateProjectPage() {
 
                 {/* 상태 */}
                 <div className="space-y-2">
-                  <Label htmlFor="status">프로젝트 상태</Label>
+                  <Label htmlFor="status">강사공고 상태</Label>
                   <Select value={formData.status} onValueChange={(value) => handleSelectChange('status', value)}>
                     <SelectTrigger>
                       <SelectValue />

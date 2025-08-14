@@ -344,15 +344,15 @@ export default function AdminCompaniesPage() {
       {/* 상세보기/편집 모달 */}
       {selectedDetail && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold">
+                <h2 className="text-2xl font-bold text-gray-900">
                   {isEditMode ? '기업 정보 편집' : '기업 상세 정보'}
                 </h2>
                 <div className="flex space-x-2">
                   {!isEditMode && (
-                    <Button variant="outline" onClick={handleEditClick}>
+                    <Button variant="outline" onClick={handleEditClick} className="border-gray-300 hover:bg-gray-50">
                       <Edit className="h-4 w-4 mr-1" />
                       편집
                     </Button>
@@ -363,88 +363,103 @@ export default function AdminCompaniesPage() {
                       setSelectedDetail(null)
                       setIsEditMode(false)
                     }}
+                    className="border-gray-300 hover:bg-gray-50"
                   >
                     닫기
                   </Button>
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-1">기업명</label>
+                  <label className="block text-sm font-semibold mb-2 text-gray-800">기업명</label>
                   {isEditMode ? (
                     <Input
                       value={editForm.company_name}
                       onChange={(e) => setEditForm({...editForm, company_name: e.target.value})}
+                      className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 bg-white"
                     />
                   ) : (
-                    <p className="text-gray-900 text-gray-900">{selectedDetail.company_name}</p>
+                    <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                      <p className="text-gray-900 font-medium text-lg">{selectedDetail.company_name}</p>
+                    </div>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">업계</label>
+                  <label className="block text-sm font-semibold mb-2 text-gray-800">업계</label>
                   {isEditMode ? (
                     <Input
                       value={editForm.industry}
                       onChange={(e) => setEditForm({...editForm, industry: e.target.value})}
+                      className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 bg-white"
                     />
                   ) : (
-                    <p className="text-gray-900 text-gray-900">{selectedDetail.industry}</p>
+                    <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
+                      <p className="text-gray-900 font-medium">{selectedDetail.industry}</p>
+                    </div>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">기업 규모</label>
+                  <label className="block text-sm font-semibold mb-2 text-gray-800">기업 규모</label>
                   {isEditMode ? (
                     <Input
                       value={editForm.company_size}
                       onChange={(e) => setEditForm({...editForm, company_size: e.target.value})}
+                      className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 bg-white"
                     />
                   ) : (
-                    <p className="text-gray-900 text-gray-900">{selectedDetail.company_size}</p>
+                    <div className="bg-purple-50 border border-purple-200 p-4 rounded-lg">
+                      <p className="text-gray-900 font-medium">{selectedDetail.company_size}</p>
+                    </div>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">기업 설명</label>
+                  <label className="block text-sm font-semibold mb-2 text-gray-800">기업 설명</label>
                   {isEditMode ? (
                     <textarea
                       value={editForm.description}
                       onChange={(e) => setEditForm({...editForm, description: e.target.value})}
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
                       rows={4}
                     />
                   ) : (
-                    <p className="text-gray-900 text-gray-900">{selectedDetail.description}</p>
+                    <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+                      <p className="text-gray-900 whitespace-pre-wrap leading-relaxed">{selectedDetail.description || '설명이 없습니다.'}</p>
+                    </div>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">담당자 정보</label>
-                  <p className="text-gray-900 text-gray-900">
-                    {selectedDetail.profile?.full_name} ({selectedDetail.profile?.email})
-                  </p>
+                  <label className="block text-sm font-semibold mb-2 text-gray-800">담당자 정보</label>
+                  <div className="bg-orange-50 border border-orange-200 p-4 rounded-lg">
+                    <p className="text-gray-900 font-medium">
+                      {selectedDetail.profile?.full_name} ({selectedDetail.profile?.email})
+                    </p>
+                  </div>
                 </div>
 
                 {isEditMode && (
-                  <div className="flex space-x-2 pt-4">
-                    <Button onClick={handleSaveEdit}>
+                  <div className="flex space-x-3 pt-6 border-t border-gray-200">
+                    <Button onClick={handleSaveEdit} className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2">
                       저장
                     </Button>
-                    <Button variant="outline" onClick={() => setIsEditMode(false)}>
+                    <Button variant="outline" onClick={() => setIsEditMode(false)} className="border-gray-300 hover:bg-gray-50 text-gray-700 font-medium px-6 py-2">
                       취소
                     </Button>
                   </div>
                 )}
 
                 {!isEditMode && (
-                  <div className="flex space-x-2 pt-4">
+                  <div className="flex space-x-3 pt-6 border-t border-gray-200">
                     <Button
                       variant="destructive"
                       onClick={() => handleDeleteClick(selectedDetail)}
+                      className="bg-red-600 hover:bg-red-700 text-white font-medium px-6 py-2"
                     >
-                      <Trash2 className="h-4 w-4 mr-1" />
+                      <Trash2 className="h-4 w-4 mr-2" />
                       삭제
                     </Button>
                   </div>
@@ -460,16 +475,16 @@ export default function AdminCompaniesPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full">
             <div className="p-6">
-              <h3 className="text-lg font-semibold mb-4">기업 삭제 확인</h3>
-              <p className="text-gray-600 text-gray-500 mb-6">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900">기업 삭제 확인</h3>
+              <p className="text-gray-700 mb-6">
                 "{companyToDelete.company_name}" 기업을 삭제하시겠습니까?<br />
                 이 작업은 되돌릴 수 없습니다.
               </p>
               <div className="flex space-x-2">
-                <Button variant="destructive" onClick={confirmDelete}>
+                <Button variant="destructive" onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
                   삭제
                 </Button>
-                <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>
+                <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)} className="border-gray-300 hover:bg-gray-50">
                   취소
                 </Button>
               </div>
