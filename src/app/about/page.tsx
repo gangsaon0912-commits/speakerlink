@@ -419,7 +419,7 @@ export default function AboutPage() {
                     <div className="text-right">
                       <div className="flex items-center text-sm font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full">
                         <DollarSign className="w-4 h-4 mr-1" />
-                        {instructor.hourly_rate ? `${formatPrice(instructor.hourly_rate)}원/시간` : '가격 미설정'}
+                        {instructor.hourly_rate && instructor.hourly_rate > 0 ? `${formatPrice(instructor.hourly_rate)}원/시간` : '가격 미설정'}
                       </div>
                     </div>
                   </div>

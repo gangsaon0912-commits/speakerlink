@@ -352,10 +352,12 @@ export default function InstructorProfilePage() {
                   <MapPin className="w-4 h-4 text-gray-500" />
                   <span className="text-sm">{instructorProfile.location || '위치 미설정'}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm">시급 {instructorProfile.hourly_rate.toLocaleString()}원</span>
-                </div>
+                {instructorProfile.hourly_rate > 0 && (
+                  <div className="flex items-center gap-2">
+                    <DollarSign className="w-4 h-4 text-gray-500" />
+                    <span className="text-sm">시급 {instructorProfile.hourly_rate.toLocaleString()}원</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
                   {instructorProfile.is_verified ? (
                     <CheckCircle className="w-4 h-4 text-green-500" />
@@ -468,24 +470,15 @@ export default function InstructorProfilePage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="w-5 h-5" />
-                  시급 및 경력
+                  {instructorProfile.hourly_rate > 0 ? (
+                    <DollarSign className="w-5 h-5" />
+                  ) : (
+                    <Award className="w-5 h-5" />
+                  )}
+                  {instructorProfile.hourly_rate > 0 ? '시급 및 경력' : '경력'}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="hourlyRate">시급 (원)</Label>
-                    <Input
-                      id="hourlyRate"
-                      type="number"
-                      value={instructorProfile.hourly_rate}
-                      onChange={(e) => setInstructorProfile({...instructorProfile, hourly_rate: parseInt(e.target.value) || 0})}
-                      disabled={!isEditing}
-                      placeholder="50000"
-                    />
-                  </div>
-                </div>
                 <div className="space-y-2">
                   <Label htmlFor="experience">경력</Label>
                   <Textarea

@@ -97,7 +97,7 @@ function VerifyEmailContent() {
       const data = await response.json()
 
       if (response.ok) {
-        setResendMessage('인증 이메일이 재전송되었습니다. 이메일을 확인해주세요.')
+        setResendMessage('인증 이메일이 발송되었습니다. 이메일을 확인해주세요.')
       } else {
         setResendMessage(data.error || '이메일 전송에 실패했습니다.')
       }
@@ -191,7 +191,7 @@ function VerifyEmailContent() {
                   ) : (
                     <>
                       <Mail className="w-4 h-4 mr-2" />
-                      인증 이메일 재전송
+                      인증 이메일 발송
                     </>
                   )}
                 </Button>

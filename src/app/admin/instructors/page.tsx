@@ -577,10 +577,12 @@ export default function AdminInstructorsPage() {
                         <p className="text-sm text-gray-500 mb-3">{instructor.bio}</p>
                         
                         <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
-                          <div className="flex items-center gap-1">
-                            <DollarSign className="h-4 w-4" />
-                            <span>시급 {instructor.hourly_rate.toLocaleString()}원</span>
-                          </div>
+                          {instructor.hourly_rate > 0 && (
+                            <div className="flex items-center gap-1">
+                              <DollarSign className="h-4 w-4" />
+                              <span>시급 {instructor.hourly_rate.toLocaleString()}원</span>
+                            </div>
+                          )}
                           {instructor.location && (
                             <div className="flex items-center gap-1">
                               <MapPin className="h-4 w-4" />
@@ -822,25 +824,27 @@ export default function AdminInstructorsPage() {
                   <CardContent className="space-y-4">
 
                     
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <DollarSign className="h-5 w-5 text-green-500" />
-                        <span className="font-medium">시급</span>
-                      </div>
-                      {isEditMode ? (
-                        <Input
-                          type="number"
-                          value={editForm.hourly_rate || 0}
-                          onChange={(e) => setEditForm(prev => ({ ...prev, hourly_rate: parseInt(e.target.value) || 0 }))}
-                          className="w-32 text-right"
-                          placeholder="시급"
-                        />
-                      ) : (
-                        <div className="text-2xl font-bold text-green-600">
-                          {(selectedInstructor.hourly_rate || 0).toLocaleString()}원
+                    {(isEditMode || (selectedInstructor.hourly_rate && selectedInstructor.hourly_rate > 0)) && (
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <DollarSign className="h-5 w-5 text-green-500" />
+                          <span className="font-medium">시급</span>
                         </div>
-                      )}
-                    </div>
+                        {isEditMode ? (
+                          <Input
+                            type="number"
+                            value={editForm.hourly_rate || 0}
+                            onChange={(e) => setEditForm(prev => ({ ...prev, hourly_rate: parseInt(e.target.value) || 0 }))}
+                            className="w-32 text-right"
+                            placeholder="시급"
+                          />
+                        ) : (
+                          <div className="text-2xl font-bold text-green-600">
+                            {(selectedInstructor.hourly_rate || 0).toLocaleString()}원
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>

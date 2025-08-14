@@ -566,7 +566,7 @@ export default function ProfileDashboardPage() {
                       </p>
                       <Link href="/auth/verify-email">
                         <Button size="sm" variant="outline" className="text-blue-600 border-blue-300 hover:bg-blue-100">
-                          이메일 재전송
+                          인증 이메일 발송
                         </Button>
                       </Link>
                     </div>
