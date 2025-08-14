@@ -79,24 +79,27 @@ export function useAuth() {
         
         if (refreshError) {
           debugLog('❌ Session refresh failed:', refreshError)
-          return null
-        }
-        
-        if (refreshData.session?.access_token) {
+          // 세션 갱신 실패 시에도 프로필 로딩 시도
+          debugLog('🔄 Continuing with profile loading despite session refresh failure...')
+        } else if (refreshData.session?.access_token) {
           session = refreshData.session
           debugLog('✅ Session refreshed successfully')
         } else {
-          debugLog('❌ No session after refresh')
-          return null
+          debugLog('❌ No session after refresh, but continuing...')
         }
       } catch (refreshError) {
         debugLog('❌ Session refresh exception:', refreshError)
-        return null
+        // 세션 갱신 실패 시에도 프로필 로딩 시도
+        debugLog('🔄 Continuing with profile loading despite session refresh exception...')
       }
     }
     
-    debugLog('🔑 Access token available, length:', session.access_token.length)
-    debugLog('🔑 Token preview:', session.access_token.substring(0, 20) + '...')
+    if (session?.access_token) {
+      debugLog('🔑 Access token available, length:', session.access_token.length)
+      debugLog('🔑 Token preview:', session.access_token.substring(0, 20) + '...')
+    } else {
+      debugLog('⚠️ No access token, but attempting profile loading anyway...')
+    }
     
     let userProfile = null
     let retryCount = 0
@@ -108,8 +111,8 @@ export function useAuth() {
         // 각 시도마다 세션 재확인
         const { data: { session: currentSession } } = await supabase.auth.getSession()
         if (!currentSession?.access_token) {
-          debugLog('❌ Session lost during profile loading')
-          break
+          debugLog('❌ Session lost during profile loading, but continuing...')
+          // 세션이 없어도 프로필 로딩 시도
         }
         
         userProfile = await getProfile(userId)
@@ -143,8 +146,32 @@ export function useAuth() {
       debugLog('🔍 Final session check:', {
         hasSession: !!session,
         hasAccessToken: !!session?.access_token,
-        userId: userId
+        userId: userId,
+        sessionUserId: session?.user?.id,
+        sessionEmail: session?.user?.email
       })
+      
+      // 프로필 로딩 실패 시에도 빈 프로필 객체 생성 시도
+      try {
+        debugLog('🔄 Attempting to create minimal profile data...')
+        if (session?.user) {
+          const minimalProfile = {
+            id: session.user.id,
+            email: session.user.email || '',
+            full_name: session.user.user_metadata?.full_name || '',
+            user_type: session.user.user_metadata?.user_type || 'instructor',
+            avatar_url: session.user.user_metadata?.avatar_url || null,
+            is_verified: false,
+            verified_at: null,
+            created_at: session.user.created_at,
+            updated_at: session.user.updated_at || session.user.created_at
+          }
+          debugLog('✅ Created minimal profile from session data:', minimalProfile)
+          return minimalProfile
+        }
+      } catch (minimalError) {
+        debugLog('❌ Failed to create minimal profile:', minimalError)
+      }
       
       // 프로필 로딩 실패 시 캐시 무효화
       clearProfileCache()
@@ -260,91 +287,51 @@ export function useAuth() {
     mountedRef.current = true
     initializedRef.current = false
 
+    // 즉시 초기화 완료 처리
+    const completeInitialization = () => {
+      if (mountedRef.current && !initializedRef.current) {
+        setLoading(false)
+        setIsInitialized(true)
+        initializedRef.current = true
+        debugLog('✅ Auth initialization complete')
+      }
+    }
+
     // 초기화 실행
     const initializeAuth = async () => {
-      if (!mountedRef.current || initializedRef.current) return
-      
       try {
         debugLog('🔍 Initializing auth...')
         
-        // 현재 세션 확인 (가장 먼저)
+        // 현재 세션 확인
         const { data: { session }, error } = await supabase.auth.getSession()
         
         if (!mountedRef.current) return
         
         if (error) {
           debugLog('❌ Session check error:', error)
-          if (mountedRef.current) {
-            setUser(null)
-            setProfile(null)
-            setLoading(false)
-            setIsInitialized(true)
-            initializedRef.current = true
-          }
-          return
         }
 
         if (session?.user) {
           debugLog('✅ Session found:', session.user.email)
           debugLog('🆔 User ID:', session.user.id)
-          debugLog('🔑 Access token exists:', !!session.access_token)
-          debugLog('🔄 Refresh token exists:', !!session.refresh_token)
           
           if (mountedRef.current) {
             setUser(session.user)
             setEmailVerified(!!session.user.email_confirmed_at)
           }
           
-          // 프로필 로딩 (즉시)
-          const userProfile = await loadProfile(session.user.id, 'initial-session')
-          
-          if (mountedRef.current) {
-            setProfile(userProfile)
-            debugLog('✅ Profile set in state:', userProfile?.full_name)
-          }
-        } else {
-          debugLog('❌ No session found, attempting recovery...')
-          
-          // 세션이 없을 때 로컬 스토리지에서 복구 시도
-          if (typeof window !== 'undefined') {
-            const storedSession = localStorage.getItem('speakerlink-auth')
-            if (storedSession) {
-              try {
-                const parsedSession = JSON.parse(storedSession)
-                if (parsedSession.access_token && parsedSession.refresh_token) {
-                  debugLog('🔄 Attempting to recover session from storage...')
-                  
-                  const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession({
-                    refresh_token: parsedSession.refresh_token
-                  })
-                  
-                  if (refreshError) {
-                    debugLog('❌ Session recovery failed:', refreshError)
-                    localStorage.removeItem('speakerlink-auth')
-                  } else if (refreshData.session?.user) {
-                    debugLog('✅ Session recovered successfully:', refreshData.session.user.email)
-                    
-                    if (mountedRef.current) {
-                      setUser(refreshData.session.user)
-                      setEmailVerified(!!refreshData.session.user.email_confirmed_at)
-                      
-                      // 세션 복구 후 즉시 프로필 로딩
-                      const userProfile = await loadProfile(refreshData.session.user.id, 'session-recovery')
-                      
-                      if (mountedRef.current) {
-                        setProfile(userProfile)
-                        debugLog('✅ Profile set in state after recovery:', userProfile?.full_name)
-                      }
-                    }
-                  }
-                }
-              } catch (parseError) {
-                console.error('❌ Failed to parse stored session for recovery:', parseError)
-                localStorage.removeItem('speakerlink-auth')
-              }
+          // 프로필 로딩 시도 (비동기로 실행하되 초기화는 즉시 완료)
+          debugLog('🔄 Loading profile for initial session...')
+          loadProfile(session.user.id, 'initial-session').then(userProfile => {
+            if (mountedRef.current) {
+              setProfile(userProfile)
+              debugLog('✅ Profile set in state:', userProfile?.full_name || 'null')
             }
-          }
-          
+          }).catch(error => {
+            console.error('❌ Profile loading error:', error)
+          })
+        } else {
+          debugLog('❌ No session found')
           if (mountedRef.current) {
             setUser(null)
             setProfile(null)
@@ -355,34 +342,41 @@ export function useAuth() {
         if (mountedRef.current) {
           setUser(null)
           setProfile(null)
-          setLoading(false)
-          setIsInitialized(true)
-          initializedRef.current = true
         }
       } finally {
-        if (mountedRef.current) {
-          setLoading(false)
-          setIsInitialized(true)
-          initializedRef.current = true
-          debugLog('✅ Auth initialization complete')
-        }
+        // 항상 초기화 완료
+        completeInitialization()
       }
     }
 
     // 초기화 실행
     initializeAuth()
 
-    // 인증 상태 변경 리스너
+    // 타임아웃으로 강제 초기화 완료 (5초 후)
+    const timeoutId = setTimeout(() => {
+      debugLog('⏰ Forcing initialization completion due to timeout')
+      completeInitialization()
+    }, 5000)
+
+    // 컴포넌트 언마운트 시 타임아웃 정리
+    return () => {
+      clearTimeout(timeoutId)
+    }
+
+    // 단순화된 인증 상태 변경 리스너
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         debugLog('🔄 Auth state change:', event, session?.user?.email)
-        debugLog('🔄 Session tokens:', {
-          accessToken: !!session?.access_token,
-          refreshToken: !!session?.refresh_token,
-          expiresAt: session?.expires_at
-        })
         
         if (!mountedRef.current) return
+
+        // 모든 이벤트에서 초기화 완료 보장
+        if (!initializedRef.current) {
+          setLoading(false)
+          setIsInitialized(true)
+          initializedRef.current = true
+          debugLog('✅ Auth initialization complete via auth state change')
+        }
 
         switch (event) {
           case 'SIGNED_IN':
@@ -391,16 +385,17 @@ export function useAuth() {
               if (mountedRef.current) {
                 setUser(session.user)
                 setEmailVerified(!!session.user.email_confirmed_at)
-                setLoading(false)
               }
               
               // 프로필 로딩
-              const userProfile = await loadProfile(session.user.id, 'sign-in')
-              
-              if (mountedRef.current) {
-                setProfile(userProfile)
-                debugLog('✅ Profile set in state:', userProfile?.full_name)
-              }
+              loadProfile(session.user.id, 'sign-in').then(userProfile => {
+                if (mountedRef.current) {
+                  setProfile(userProfile)
+                  debugLog('✅ Profile set in state:', userProfile?.full_name || 'null')
+                }
+              }).catch(error => {
+                console.error('❌ Profile loading error:', error)
+              })
             }
             break
 
@@ -410,14 +405,8 @@ export function useAuth() {
               setUser(null)
               setProfile(null)
               setEmailVerified(false)
-              setLoading(false)
             }
-            
-            // 로그아웃 시 캐시 및 스토리지 정리
             clearProfileCache()
-            if (typeof window !== 'undefined') {
-              localStorage.removeItem('speakerlink-auth')
-            }
             break
 
           case 'TOKEN_REFRESHED':
@@ -425,19 +414,16 @@ export function useAuth() {
               debugLog('🔄 Token refreshed:', session.user.email)
               if (mountedRef.current) {
                 setUser(session.user)
-                
-                // 토큰 갱신 시 캐시 무효화
                 clearProfileCache()
                 
                 // 프로필 다시 가져오기
-                try {
-                  const userProfile = await loadProfile(session.user.id, 'token-refresh')
+                loadProfile(session.user.id, 'token-refresh').then(userProfile => {
                   if (mountedRef.current) {
                     setProfile(userProfile)
                   }
-                } catch (error) {
+                }).catch(error => {
                   console.error('❌ Profile fetch error after token refresh:', error)
-                }
+                })
               }
             }
             break
@@ -448,48 +434,25 @@ export function useAuth() {
               if (mountedRef.current) {
                 setUser(session.user)
                 setEmailVerified(!!session.user.email_confirmed_at)
-                setLoading(false)
               }
               
-              // 프로필 로딩 (즉시)
-              try {
-                const userProfile = await loadProfile(session.user.id, 'initial-session')
-                
+              // 프로필 로딩
+              loadProfile(session.user.id, 'initial-session').then(userProfile => {
                 if (mountedRef.current) {
                   setProfile(userProfile)
-                  debugLog('✅ Profile set in state:', userProfile?.full_name)
+                  debugLog('✅ Profile set in state:', userProfile?.full_name || 'null')
                 }
-              } catch (error) {
+              }).catch(error => {
                 console.error('❌ Profile error on initial session:', error)
                 if (mountedRef.current) {
                   setProfile(null)
                 }
-              }
+              })
             } else {
               debugLog('🎯 Initial session: no session')
               if (mountedRef.current) {
                 setUser(null)
                 setProfile(null)
-                setLoading(false)
-              }
-            }
-            break
-
-          case 'USER_UPDATED':
-            if (session?.user) {
-              debugLog('👤 User updated:', session.user.email)
-              if (mountedRef.current) {
-                setUser(session.user)
-              }
-            }
-            break
-
-          case 'MFA_CHALLENGE_VERIFIED':
-            if (session?.user) {
-              debugLog('🔐 MFA challenge verified:', session.user.email)
-              if (mountedRef.current) {
-                setUser(session.user)
-                setEmailVerified(!!session.user.email_confirmed_at)
               }
             }
             break
