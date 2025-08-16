@@ -468,11 +468,11 @@ export default function AdminVerificationPage() {
       {/* 상세보기 모달 */}
       {isDetailModalOpen && selectedRequest && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold">검증 요청 상세</h2>
-                <Button variant="ghost" onClick={handleCloseModal}>
+                <h2 className="text-xl font-bold text-gray-900">검증 요청 상세</h2>
+                <Button variant="ghost" onClick={handleCloseModal} className="text-gray-500 hover:text-gray-700">
                   ✕
                 </Button>
               </div>
@@ -480,24 +480,24 @@ export default function AdminVerificationPage() {
               <div className="space-y-6">
                 {/* 기본 정보 */}
                 <div>
-                  <h3 className="font-semibold mb-3">기본 정보</h3>
+                  <h3 className="font-semibold mb-3 text-gray-900">기본 정보</h3>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-gray-500">이름:</span>
-                      <span className="ml-2">{selectedRequest.user_profile?.full_name}</span>
+                      <span className="text-gray-600 font-medium">이름:</span>
+                      <span className="ml-2 text-gray-900">{selectedRequest.user_profile?.full_name}</span>
                     </div>
                     <div>
-                      <span className="text-gray-500">이메일:</span>
-                      <span className="ml-2">{selectedRequest.user_profile?.email}</span>
+                      <span className="text-gray-600 font-medium">이메일:</span>
+                      <span className="ml-2 text-gray-900">{selectedRequest.user_profile?.email}</span>
                     </div>
                     <div>
-                      <span className="text-gray-500">유형:</span>
-                      <span className="ml-2">
+                      <span className="text-gray-600 font-medium">유형:</span>
+                      <span className="ml-2 text-gray-900">
                         {selectedRequest.user_type === 'instructor' ? '강사' : '기업'}
                       </span>
                     </div>
                     <div>
-                      <span className="text-gray-500">상태:</span>
+                      <span className="text-gray-600 font-medium">상태:</span>
                       <span className="ml-2">{getStatusBadge(selectedRequest.status)}</span>
                     </div>
                   </div>
@@ -505,21 +505,21 @@ export default function AdminVerificationPage() {
 
                 {/* 프로필 데이터 */}
                 <div>
-                  <h3 className="font-semibold mb-3">프로필 정보</h3>
+                  <h3 className="font-semibold mb-3 text-gray-900">프로필 정보</h3>
                   <div className="space-y-3 text-sm">
                     {selectedRequest.profile_data.bio && (
                       <div>
-                        <span className="text-gray-500">자기소개:</span>
-                        <p className="mt-1 text-gray-700 text-gray-600">{selectedRequest.profile_data.bio}</p>
+                        <span className="text-gray-600 font-medium">자기소개:</span>
+                        <p className="mt-1 text-gray-900 bg-gray-50 p-3 rounded border">{selectedRequest.profile_data.bio}</p>
                       </div>
                     )}
                     
                     {selectedRequest.profile_data.expertise && selectedRequest.profile_data.expertise.length > 0 && (
                       <div>
-                        <span className="text-gray-500">전문분야:</span>
+                        <span className="text-gray-600 font-medium">전문분야:</span>
                         <div className="mt-1 flex flex-wrap gap-2">
                           {selectedRequest.profile_data.expertise.map((skill, index) => (
-                            <Badge key={index} variant="secondary">{skill}</Badge>
+                            <Badge key={index} variant="secondary" className="bg-blue-100 text-blue-800">{skill}</Badge>
                           ))}
                         </div>
                       </div>
@@ -527,10 +527,10 @@ export default function AdminVerificationPage() {
                     
                     {selectedRequest.profile_data.documents && selectedRequest.profile_data.documents.length > 0 && (
                       <div>
-                        <span className="text-gray-500">첨부 문서:</span>
+                        <span className="text-gray-600 font-medium">첨부 문서:</span>
                         <div className="mt-1 space-y-1">
                           {selectedRequest.profile_data.documents.map((doc, index) => (
-                            <div key={index} className="text-blue-600 hover:underline cursor-pointer">
+                            <div key={index} className="text-blue-600 hover:underline cursor-pointer bg-blue-50 p-2 rounded">
                               📎 {doc}
                             </div>
                           ))}
@@ -544,7 +544,7 @@ export default function AdminVerificationPage() {
                 {selectedRequest.status === 'rejected' && selectedRequest.rejection_reason && (
                   <div>
                     <h3 className="font-semibold mb-3 text-red-600">거부 사유</h3>
-                    <p className="text-sm text-red-600 bg-red-50 dark:bg-red-900/20 p-3 rounded">
+                    <p className="text-sm text-red-700 bg-red-50 p-3 rounded border border-red-200">
                       {selectedRequest.rejection_reason}
                     </p>
                   </div>
@@ -552,11 +552,11 @@ export default function AdminVerificationPage() {
 
                 {/* 액션 버튼 */}
                 {selectedRequest.status === 'pending' && (
-                  <div className="flex space-x-3 pt-4 border-t">
+                  <div className="flex space-x-3 pt-4 border-t border-gray-200">
                     <Button
                       onClick={() => handleApprove(selectedRequest.id)}
                       disabled={isProcessing}
-                      className="flex-1 bg-green-600 hover:bg-green-700"
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                     >
                       {isProcessing ? (
                         <>
@@ -579,7 +579,7 @@ export default function AdminVerificationPage() {
                           handleReject(selectedRequest.id, reason)
                         }
                       }}
-                      className="flex-1 border-red-200 text-red-600 hover:bg-red-50"
+                      className="flex-1 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400"
                     >
                       {isProcessing ? (
                         <>
