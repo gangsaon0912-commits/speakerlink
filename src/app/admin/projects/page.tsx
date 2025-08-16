@@ -410,114 +410,187 @@ export default function AdminProjectsPage() {
 
       {/* 수정 모달 */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>프로젝트 수정</DialogTitle>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader className="pb-4 border-b">
+            <DialogTitle className="text-xl font-bold text-gray-900">프로젝트 수정</DialogTitle>
           </DialogHeader>
           {editingProject && (
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="edit-title">프로젝트 제목</Label>
-                <Input
-                  id="edit-title"
-                  value={editingProject.title}
-                  onChange={(e) => setEditingProject({ ...editingProject, title: e.target.value })}
-                />
-              </div>
-              <div>
-                <Label htmlFor="edit-description">프로젝트 설명</Label>
-                <Textarea
-                  id="edit-description"
-                  value={editingProject.description}
-                  onChange={(e) => setEditingProject({ ...editingProject, description: e.target.value })}
-                  rows={4}
-                />
-              </div>
-              <div>
-                <Label htmlFor="edit-company">담당 기업</Label>
-                <Select
-                  value={editingProject.company_id}
-                  onValueChange={(value) => setEditingProject({ ...editingProject, company_id: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="기업 선택" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {companies.length === 0 ? (
-                      <SelectItem value="" disabled>
-                        기업 데이터를 불러오는 중...
-                      </SelectItem>
-                    ) : (
-                      companies.map((company) => (
-                        <SelectItem key={company.id} value={company.id}>
-                          {company.company_name}
-                        </SelectItem>
-                      ))
-                    )}
-                  </SelectContent>
-                </Select>
-                <div className="text-xs text-gray-500 mt-1">
-                  로드된 기업 수: {companies.length}개
+            <div className="space-y-6 py-4">
+              {/* 기본 정보 섹션 */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">기본 정보</h3>
+                
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="edit-title" className="text-sm font-medium text-gray-700">
+                      프로젝트 제목 *
+                    </Label>
+                    <Input
+                      id="edit-title"
+                      value={editingProject.title}
+                      onChange={(e) => setEditingProject({ ...editingProject, title: e.target.value })}
+                      className="mt-1"
+                      placeholder="프로젝트 제목을 입력하세요"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="edit-description" className="text-sm font-medium text-gray-700">
+                      프로젝트 설명 *
+                    </Label>
+                    <Textarea
+                      id="edit-description"
+                      value={editingProject.description}
+                      onChange={(e) => setEditingProject({ ...editingProject, description: e.target.value })}
+                      rows={4}
+                      className="mt-1"
+                      placeholder="프로젝트에 대한 상세한 설명을 입력하세요"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+
+              {/* 담당 기업 섹션 */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">담당 기업</h3>
+                
                 <div>
-                  <Label htmlFor="edit-budget">예산 범위</Label>
-                  <Input
-                    id="edit-budget"
-                    value={editingProject.budget_range || ''}
-                    onChange={(e) => setEditingProject({ ...editingProject, budget_range: e.target.value })}
-                    placeholder="예: 5000000-8000000"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="edit-duration">프로젝트 기간</Label>
-                  <Input
-                    id="edit-duration"
-                    value={editingProject.duration || ''}
-                    onChange={(e) => setEditingProject({ ...editingProject, duration: e.target.value })}
-                    placeholder="예: 8주"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="edit-location">프로젝트 위치</Label>
-                  <Input
-                    id="edit-location"
-                    value={editingProject.location || ''}
-                    onChange={(e) => setEditingProject({ ...editingProject, location: e.target.value })}
-                    placeholder="예: 서울"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="edit-status">프로젝트 상태</Label>
+                  <Label htmlFor="edit-company" className="text-sm font-medium text-gray-700">
+                    담당 기업 선택 *
+                  </Label>
                   <Select
-                    value={editingProject.status}
-                    onValueChange={(value) => setEditingProject({ ...editingProject, status: value })}
+                    value={editingProject.company_id}
+                    onValueChange={(value) => setEditingProject({ ...editingProject, company_id: value })}
                   >
-                    <SelectTrigger>
-                      <SelectValue />
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="기업을 선택하세요" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="open">모집중</SelectItem>
-                      <SelectItem value="in_progress">진행중</SelectItem>
-                      <SelectItem value="completed">완료</SelectItem>
-                      <SelectItem value="cancelled">취소</SelectItem>
+                      {companies.length === 0 ? (
+                        <SelectItem value="" disabled>
+                          기업 데이터를 불러오는 중...
+                        </SelectItem>
+                      ) : (
+                        companies.map((company) => (
+                          <SelectItem key={company.id} value={company.id}>
+                            {company.company_name}
+                          </SelectItem>
+                        ))
+                      )}
                     </SelectContent>
                   </Select>
+                  <div className="text-xs text-gray-500 mt-2 flex items-center gap-2">
+                    <span>📊 로드된 기업 수: {companies.length}개</span>
+                    {companies.length === 0 && (
+                      <span className="text-orange-600">⚠️ 기업 데이터가 없습니다</span>
+                    )}
+                  </div>
                 </div>
               </div>
-              <div className="flex justify-end gap-2 pt-4">
+
+              {/* 프로젝트 세부 정보 섹션 */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">프로젝트 세부 정보</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="edit-budget" className="text-sm font-medium text-gray-700">
+                      예산 범위
+                    </Label>
+                    <Input
+                      id="edit-budget"
+                      value={editingProject.budget_range || ''}
+                      onChange={(e) => setEditingProject({ ...editingProject, budget_range: e.target.value })}
+                      placeholder="예: 500만원-800만원"
+                      className="mt-1"
+                    />
+                    <div className="text-xs text-gray-500 mt-1">
+                      💰 예산 범위를 명시해주세요
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="edit-duration" className="text-sm font-medium text-gray-700">
+                      프로젝트 기간
+                    </Label>
+                    <Input
+                      id="edit-duration"
+                      value={editingProject.duration || ''}
+                      onChange={(e) => setEditingProject({ ...editingProject, duration: e.target.value })}
+                      placeholder="예: 8주, 3개월"
+                      className="mt-1"
+                    />
+                    <div className="text-xs text-gray-500 mt-1">
+                      ⏱️ 예상 소요 기간을 입력하세요
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="edit-location" className="text-sm font-medium text-gray-700">
+                      프로젝트 위치
+                    </Label>
+                    <Input
+                      id="edit-location"
+                      value={editingProject.location || ''}
+                      onChange={(e) => setEditingProject({ ...editingProject, location: e.target.value })}
+                      placeholder="예: 서울, 원격, 하이브리드"
+                      className="mt-1"
+                    />
+                    <div className="text-xs text-gray-500 mt-1">
+                      📍 작업 장소를 명시해주세요
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="edit-status" className="text-sm font-medium text-gray-700">
+                      프로젝트 상태 *
+                    </Label>
+                    <Select
+                      value={editingProject.status}
+                      onValueChange={(value) => setEditingProject({ ...editingProject, status: value })}
+                    >
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="상태를 선택하세요" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="open">🟢 모집중</SelectItem>
+                        <SelectItem value="in_progress">🟡 진행중</SelectItem>
+                        <SelectItem value="completed">✅ 완료</SelectItem>
+                        <SelectItem value="cancelled">❌ 취소</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <div className="text-xs text-gray-500 mt-1">
+                      📊 현재 프로젝트 상태를 선택하세요
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 액션 버튼 */}
+              <div className="flex justify-end gap-3 pt-6 border-t bg-gray-50 -mx-6 -mb-6 px-6 py-4">
                 <Button
                   variant="outline"
                   onClick={() => {
                     setIsEditModalOpen(false)
                     setEditingProject(null)
                   }}
+                  className="px-6"
                 >
                   취소
                 </Button>
-                <Button onClick={handleSaveEdit} disabled={saving}>
-                  {saving ? '저장 중...' : '저장'}
+                <Button 
+                  onClick={handleSaveEdit} 
+                  disabled={saving}
+                  className="px-6 bg-blue-600 hover:bg-blue-700"
+                >
+                  {saving ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      저장 중...
+                    </>
+                  ) : (
+                    '저장하기'
+                  )}
                 </Button>
               </div>
             </div>
